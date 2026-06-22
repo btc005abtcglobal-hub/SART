@@ -1726,7 +1726,7 @@ function toggleFloatingAiCopilot() {
 
 // Live Booking Activity Toast Notification
 const MOCK_ACTIVITIES = [
-  { name: "Amit", city: "Bengaluru", item: "Art Workshop", loc: "Cubbon ArtHouse", time: "10 mins ago", category: "store" },
+  { name: "Amit", city: "Bengaluru", item: "Airport Sedan Ride", loc: "Kempegowda Airport", time: "10 mins ago", category: "ride" },
   { name: "Rajesh Kumar", city: "Indiranagar", item: "Tire Diagnostics", loc: "SART Service Node", time: "2 mins ago", category: "mechanic" },
   { name: "Sneha", city: "Mumbai", item: "Luxury Yacht Cruise", loc: "Gateway Pier", time: "5 mins ago", category: "sea" },
   { name: "Vikram", city: "Delhi", item: "Heli Commute Charter", loc: "IGI Heliport", time: "1 min ago", category: "air" },

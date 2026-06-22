@@ -20,13 +20,6 @@
     
     <!-- TOP NAVIGATION BAR -->
     <header class="web-navbar">
-      <!-- Location Pinned to LEFT (user wireframe requirement) -->
-      <div class="location-nav-btn" onclick="requestLocation()" style="margin-right: 12px; flex-shrink: 0;">
-        <i class="fa-solid fa-location-dot"></i>
-        <span id="nav-location-txt">Indiranagar, Bengaluru</span>
-        <i class="fa-solid fa-chevron-down" style="font-size: 8px;"></i>
-      </div>
-
       <div class="nav-brand" onclick="switchTab('home')">
         <i class="fa-solid fa-compass-drafting brand-icon"></i>
         <span>SART</span>
@@ -35,6 +28,13 @@
       
       <!-- Center Links -->
       <nav class="nav-links">
+        <!-- Location Pinned to the Left of Home in Nav Bar (User wireframe requirement) -->
+        <div class="location-nav-btn" onclick="requestLocation()" style="margin-right: 8px; flex-shrink: 0; align-self: center;">
+          <i class="fa-solid fa-location-dot"></i>
+          <span id="nav-location-txt">Indiranagar, Bengaluru</span>
+          <i class="fa-solid fa-chevron-down" style="font-size: 8px;"></i>
+        </div>
+
         <div class="nav-link active" id="nav-btn-home" onclick="switchTab('home')">
           <i class="fa-solid fa-house"></i>
           <span>Home</span>
