@@ -48,4 +48,6 @@ app.*.map.json
 node_modules/
 .env
 .vercel
+watch-push.js
+
 
