@@ -1,0 +1,10 @@
+{
+  "name": "sart-website",
+  "version": "1.0.0",
+  "description": "SART Transport Booking Web Demo",
+  "scripts": {
+    "dev": "node serve.js",
+    "build": "echo 'No build required for static deployment'",
+    "start": "node serve.js"
+  }
+}
