@@ -1332,12 +1332,16 @@ function showToastNotification(message) {
 // Location lookup trigger
 function requestLocation() {
   const txt = document.getElementById('current-location-txt');
-  txt.innerText = "Locating GPS...";
+  const navTxt = document.getElementById('nav-location-txt');
+  
+  if (txt) txt.innerText = "Locating GPS...";
+  if (navTxt) navTxt.innerText = "Locating...";
   
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(
       (pos) => {
-        txt.innerText = "Indiranagar, Bengaluru";
+        if (txt) txt.innerText = "Indiranagar, Bengaluru";
+        if (navTxt) navTxt.innerText = "Indiranagar, Bengaluru";
         logActivity(`System`, `Location updated: [Indiranagar, Bengaluru]`);
         if (leafletMap && userMarker) {
           userMarker.setLatLng(BENGALURU_COORDS); 
@@ -1345,11 +1349,13 @@ function requestLocation() {
         }
       },
       (err) => {
-        txt.innerText = "Indiranagar, Bengaluru";
+        if (txt) txt.innerText = "Indiranagar, Bengaluru";
+        if (navTxt) navTxt.innerText = "Indiranagar, Bengaluru";
       }
     );
   } else {
-    txt.innerText = "Indiranagar, Bengaluru";
+    if (txt) txt.innerText = "Indiranagar, Bengaluru";
+    if (navTxt) navTxt.innerText = "Indiranagar, Bengaluru";
   }
 }
 
@@ -1635,8 +1641,17 @@ document.addEventListener('DOMContentLoaded', () => {
   initMap();
   
   // Set default city text
-  document.getElementById('current-location-txt').innerText = appState.location;
+  if (document.getElementById('current-location-txt')) {
+    document.getElementById('current-location-txt').innerText = appState.location;
+  }
+  if (document.getElementById('nav-location-txt')) {
+    document.getElementById('nav-location-txt').innerText = appState.location;
+  }
   
+  // Start automated banner carousel & live notifications
+  startCarouselAutoPlay();
+  initLiveActivitySystem();
+
   // Check if an active booking was left in state, show overlay
   const activeB = appState.bookings.find(b => b.status === 'Active');
   if (activeB) {
@@ -1656,3 +1671,108 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 1000);
   }
 });
+
+// ============================================================================
+// 16. BOKSPOT OVERLAYS & LIVE REDESIGN UTILITIES
+// ============================================================================
+let currentSlideIndex = 0;
+let carouselTimer = null;
+
+function setSlide(index) {
+  const slides = document.querySelectorAll('.carousel-slide');
+  const dots = document.querySelectorAll('.carousel-dot');
+  if (slides.length === 0) return;
+  
+  // Bound check
+  if (index >= slides.length) index = 0;
+  if (index < 0) index = slides.length - 1;
+  
+  currentSlideIndex = index;
+  
+  slides.forEach((slide, idx) => {
+    slide.classList.toggle('active', idx === index);
+  });
+  
+  dots.forEach((dot, idx) => {
+    dot.classList.toggle('active', idx === index);
+  });
+}
+
+function startCarouselAutoPlay() {
+  stopCarouselAutoPlay();
+  carouselTimer = setInterval(() => {
+    setSlide(currentSlideIndex + 1);
+  }, 5000);
+}
+
+function stopCarouselAutoPlay() {
+  if (carouselTimer) {
+    clearInterval(carouselTimer);
+    carouselTimer = null;
+  }
+}
+
+// Floating AI Copilot Trigger
+function toggleFloatingAiCopilot() {
+  switchTab('ai');
+  const trigger = document.getElementById('floating-ai-trigger');
+  if (trigger) {
+    trigger.style.transform = 'scale(0.95)';
+    setTimeout(() => {
+      trigger.style.transform = '';
+    }, 150);
+  }
+}
+
+// Live Booking Activity Toast Notification
+const MOCK_ACTIVITIES = [
+  { name: "Amit", city: "Bengaluru", item: "Art Workshop", loc: "Cubbon ArtHouse", time: "10 mins ago", category: "store" },
+  { name: "Rajesh Kumar", city: "Indiranagar", item: "Tire Diagnostics", loc: "SART Service Node", time: "2 mins ago", category: "mechanic" },
+  { name: "Sneha", city: "Mumbai", item: "Luxury Yacht Cruise", loc: "Gateway Pier", time: "5 mins ago", category: "sea" },
+  { name: "Vikram", city: "Delhi", item: "Heli Commute Charter", loc: "IGI Heliport", time: "1 min ago", category: "air" },
+  { name: "Deepa", city: "Chennai", item: "Vande Bharat Express", loc: "Central Terminal", time: "12 mins ago", category: "train" },
+  { name: "Arjun", city: "Koramangala", item: "Tata Nexon EV Drive", loc: "Self-Drive Depot", time: "8 mins ago", category: "rental" },
+  { name: "Meera", city: "Bengaluru", item: "Valet Parking Slot", loc: "Commercial Street", time: "15 mins ago", category: "parking" }
+];
+
+function showRandomLiveActivity() {
+  const toast = document.getElementById('live-activity-toast');
+  const textEl = document.getElementById('live-toast-text');
+  const metaEl = document.getElementById('live-toast-meta');
+  if (!toast || !textEl || !metaEl) return;
+  
+  const act = MOCK_ACTIVITIES[Math.floor(Math.random() * MOCK_ACTIVITIES.length)];
+  
+  textEl.innerHTML = `<strong>${act.name}</strong> in ${act.city} booked <strong>${act.item}</strong> at ${act.loc}`;
+  
+  let targetTab = 'home';
+  if (act.category === 'store') targetTab = 'store';
+  else if (act.category === 'mechanic') targetTab = 'profile'; 
+  
+  metaEl.innerHTML = `${act.time} • <span style="text-decoration: underline; cursor: pointer; color: var(--primary-header);" onclick="switchTab('${targetTab}')">VIEW SERVICE &gt;</span>`;
+  
+  toast.classList.add('show');
+  
+  // Automatically hide after 6 seconds
+  setTimeout(() => {
+    hideLiveActivityToast();
+  }, 6000);
+}
+
+function hideLiveActivityToast() {
+  const toast = document.getElementById('live-activity-toast');
+  if (toast) toast.classList.remove('show');
+}
+
+function initLiveActivitySystem() {
+  // Show first toast after 3 seconds
+  setTimeout(() => {
+    showRandomLiveActivity();
+  }, 4000);
+  
+  // Show a new toast every 25 seconds
+  setInterval(() => {
+    showRandomLiveActivity();
+  }, 25000);
+}
+

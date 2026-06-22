@@ -52,7 +52,13 @@
       
       <!-- Right Controls -->
       <div class="nav-controls">
-        
+        <!-- Location Dropdown (Bokspot Style) -->
+        <div class="location-nav-btn" onclick="requestLocation()">
+          <i class="fa-solid fa-location-dot"></i>
+          <span id="nav-location-txt">Indiranagar, Bengaluru</span>
+          <i class="fa-solid fa-chevron-down" style="font-size: 8px;"></i>
+        </div>
+
         <!-- Wallet quick display -->
         <div class="wallet-badge" onclick="switchTab('wallet')">
           <i class="fa-solid fa-wallet"></i>
@@ -66,14 +72,49 @@
           <span class="ctrl-badge" id="notif-badge">3</span>
         </div>
         
+        <!-- Profile Dropdown (Bokspot Style) -->
+        <div class="profile-nav-btn" onclick="switchTab('profile')">
+          <i class="fa-solid fa-circle-user"></i>
+          <span>Alex Carter</span>
+          <i class="fa-solid fa-chevron-down" style="font-size: 9px;"></i>
+        </div>
+
         <!-- Emergency SOS Button -->
         <button class="sos-nav-btn" onclick="triggerImmediateSOS()">
           <i class="fa-solid fa-triangle-exclamation"></i>
           <span>SOS</span>
         </button>
-        
       </div>
     </header>
+    
+    <!-- SUB-NAVIGATION BAR (Bokspot Style) -->
+    <div class="web-subnavbar">
+      <div class="subnav-links">
+        <a class="subnav-link" onclick="openModal('modal-air')">
+          <i class="fa-solid fa-plane"></i> Travel
+        </a>
+        <a class="subnav-link" onclick="openModal('modal-rental')">
+          <i class="fa-solid fa-hotel"></i> Stay & Accommodation
+        </a>
+        <a class="subnav-link" onclick="switchTab('store')">
+          <i class="fa-solid fa-film"></i> Entertainment
+        </a>
+        <a class="subnav-link" onclick="openModal('modal-parking')">
+          <i class="fa-solid fa-football"></i> Sports
+        </a>
+        <a class="subnav-link" onclick="openModal('modal-mechanic')">
+          <i class="fa-solid fa-award"></i> Lifestyle Services
+        </a>
+      </div>
+      <div class="subnav-actions">
+        <button class="subnav-btn" onclick="switchTab('home')">
+          <i class="fa-solid fa-chart-pie"></i> DASHBOARD
+        </button>
+        <button class="subnav-btn btn-vendor" onclick="alert('SART Vendor Registration Panel loading...')">
+          <i class="fa-solid fa-store"></i> VENDOR
+        </button>
+      </div>
+    </div>
     
     <!-- MAIN CONTENT AREA -->
     <main class="web-main-content">
@@ -81,157 +122,215 @@
       <!-- 1. HOME TAB (Wireframe-aligned Dashboard) -->
       <section class="tab-screen active" id="tab-home">
         
-        <!-- Home Header Row (Location & Search) -->
-        <div class="home-top-bar">
-          <div class="location-badge" id="city-selector" onclick="requestLocation()">
-            <i class="fa-solid fa-location-dot"></i>
-            <span id="current-location-txt">Indiranagar, Bengaluru</span>
-          </div>
-          <div class="home-search-bar" onclick="openModal('modal-search')">
+        <!-- Home Header Row (Search Only - Location moved to Nav) -->
+        <div class="home-top-bar" style="justify-content: center; margin-bottom: 20px;">
+          <div class="home-search-bar" onclick="openModal('modal-search')" style="max-width: 700px; width: 100%;">
             <i class="fa-solid fa-magnifying-glass"></i>
             <input type="text" id="home-portal-search-placeholder" placeholder="Search rides, flights, trains, carriers, diagnostics..." readonly>
             <button class="search-btn">Search Portal</button>
           </div>
         </div>
 
-        <!-- Large Box (Leaflet Map & Controls) -->
-        <div class="home-map-panel">
-          <div id="explore-map"></div>
-          
-          <!-- Floating Actions Overlay -->
-          <div class="map-floating-bottom-left">
-            <button class="map-action-btn-liked" id="home-liked-btn" onclick="openModal('modal-liked')">
-              <i class="fa-solid fa-star"></i> LIKED
-            </button>
+        <!-- Hero Carousel Section (Bokspot Style) -->
+        <div class="hero-carousel-container">
+          <!-- Slide 1 (Sports Event) -->
+          <div class="carousel-slide active" id="slide-0">
+            <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=1200&q=80');"></div>
+            <div class="slide-content">
+              <span class="slide-tag" style="background: rgba(16, 185, 129, 0.15); color: #10b981; border-color: rgba(16,185,129,0.3);">Sports Event</span>
+              <h2 class="slide-title">Elite Turf Booking</h2>
+              <p class="slide-desc">Reserve premium football turfs and cricket nets with smart slot scheduling.</p>
+              <button class="slide-btn" onclick="openModal('modal-parking')">RESERVE TURF</button>
+            </div>
           </div>
-          <div class="map-floating-bottom-right">
-            <button class="map-action-btn-nearby" id="home-nearby-btn" onclick="triggerNearbyFind()">
-              <i class="fa-solid fa-radar"></i> NEAR BY FIND
-            </button>
+          <!-- Slide 2 (EV Rental) -->
+          <div class="carousel-slide" id="slide-1">
+            <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&w=1200&q=80');"></div>
+            <div class="slide-content">
+              <span class="slide-tag" style="background: rgba(59, 130, 246, 0.15); color: #3b82f6; border-color: rgba(59,130,246,0.3);">Self Drive</span>
+              <h2 class="slide-title">Tata Nexon EV Rental</h2>
+              <p class="slide-desc">Sleek, eco-friendly electric SUVs. 100% charged and ready for daily commutes.</p>
+              <button class="slide-btn" onclick="openModal('modal-rental')">RENT EV NOW</button>
+            </div>
           </div>
-          
-          <!-- Floating Map Controls -->
-          <div class="map-floating-controls">
-            <button class="map-circle-btn" onclick="zoomInMap()"><i class="fa-solid fa-plus"></i></button>
-            <button class="map-circle-btn" onclick="zoomOutMap()"><i class="fa-solid fa-minus"></i></button>
-            <button class="map-circle-btn" onclick="recenterMap()"><i class="fa-solid fa-crosshairs"></i></button>
+          <!-- Slide 3 (Concert / Air) -->
+          <div class="carousel-slide" id="slide-2">
+            <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=1200&q=80');"></div>
+            <div class="slide-content">
+              <span class="slide-tag" style="background: rgba(168, 85, 247, 0.15); color: #a855f7; border-color: rgba(168,85,247,0.3);">Music Festival</span>
+              <h2 class="slide-title">Sunburn EDM Festival</h2>
+              <p class="slide-desc">VIP terminal lounge packages and dynamic chopper charters direct to the venue.</p>
+              <button class="slide-btn" onclick="openModal('modal-air')">VIP BOOKING</button>
+            </div>
           </div>
 
-          <!-- Floating Active Booking Card overlay on Map -->
-          <div class="map-active-booking-panel floating-map-booking-panel" id="map-active-booking-card" style="display: none;">
-            <div class="panel-header-badge">LIVE TRACKING ACTIVE</div>
-            <div class="panel-main">
-              <div class="panel-icon-wrap" id="map-active-booking-icon-container">
-                <i class="fa-solid fa-car-side" id="map-active-booking-icon"></i>
+          <!-- Dots -->
+          <div class="carousel-dots">
+            <span class="carousel-dot active" onclick="setSlide(0)"></span>
+            <span class="carousel-dot" onclick="setSlide(1)"></span>
+            <span class="carousel-dot" onclick="setSlide(2)"></span>
+          </div>
+        </div>
+
+        <!-- Shortcuts Row -->
+        <div class="shortcuts-row">
+          <div class="shortcut-pill" onclick="openModal('modal-air')">
+            <i class="fa-solid fa-plane-departure" style="color: #3b82f6;"></i>
+            <span>Flight Booking</span>
+          </div>
+          <div class="shortcut-pill" onclick="openModal('modal-rental')">
+            <i class="fa-solid fa-hotel" style="color: #f97316;"></i>
+            <span>Hotel Booking</span>
+          </div>
+          <div class="shortcut-pill" onclick="openModal('modal-carrier')">
+            <i class="fa-solid fa-truck" style="color: #10b981;"></i>
+            <span>Bus Booking</span>
+          </div>
+          <div class="shortcut-pill" onclick="openModal('modal-travel-guide')">
+            <i class="fa-solid fa-compass" style="color: #a855f7;"></i>
+            <span>Exhibition Entry</span>
+          </div>
+          <div class="shortcut-pill" onclick="openModal('modal-find-vehicle')">
+            <i class="fa-solid fa-location-crosshairs" style="color: #ec4899;"></i>
+            <span>Find My Vehicle</span>
+          </div>
+          <div class="shortcut-pill" onclick="openModal('modal-bookings-registry')">
+            <i class="fa-solid fa-receipt" style="color: #f5c518;"></i>
+            <span>My Bookings</span>
+          </div>
+          <div class="shortcut-pill shortcut-add" onclick="alert('Configure custom shortcut widget')">
+            <i class="fa-solid fa-plus"></i>
+            <span>Shortcut +</span>
+          </div>
+        </div>
+
+        <!-- Recommended For You (Colorful Glow Cards) -->
+        <div class="recommended-section">
+          <h2>Recommended For You</h2>
+          <p>Curated bookings and activities tailored to your profile</p>
+          <div class="recommended-grid">
+            
+            <!-- Card 1: Avengers Movie (Red Glow) -->
+            <div class="recommended-card rec-card-red" onclick="alert('Avengers: Secret Wars Booking - Tickets from ₹190')">
+              <div class="rec-card-top-row">
+                <span class="rec-card-tag">Avengers Movie</span>
+                <span class="rec-card-rating"><i class="fa-solid fa-star"></i> 4.9</span>
               </div>
-              <div class="panel-desc">
-                <h4 id="map-active-booking-title">Ride to Kempegowda Airport</h4>
-                <p id="map-active-booking-desc">Driver is starting journey...</p>
+              <div class="rec-card-body">
+                <span class="rec-card-illustration">🎬</span>
+              </div>
+              <div class="rec-card-footer">
+                <h3 class="rec-card-title">Avengers: Secret Wars</h3>
+                <span class="rec-card-price">From ₹190</span>
               </div>
             </div>
-            <button class="cancel-booking-btn" onclick="openModal('modal-bookings-registry')">Manage Ticket Details</button>
+
+            <!-- Card 2: Hotel / Stay (Orange Glow) -->
+            <div class="recommended-card rec-card-orange" onclick="openModal('modal-rental')">
+              <div class="rec-card-top-row">
+                <span class="rec-card-tag">Stay & Accom</span>
+                <span class="rec-card-rating"><i class="fa-solid fa-star"></i> 4.8</span>
+              </div>
+              <div class="rec-card-body">
+                <span class="rec-card-illustration">🏨</span>
+              </div>
+              <div class="rec-card-footer">
+                <h3 class="rec-card-title">Grand Palace Resorts</h3>
+                <span class="rec-card-price">From ₹4,500</span>
+              </div>
+            </div>
+
+            <!-- Card 3: Train (Blue Glow) -->
+            <div class="recommended-card rec-card-blue" onclick="openModal('modal-train')">
+              <div class="rec-card-top-row">
+                <span class="rec-card-tag">Your Next Train</span>
+                <span class="rec-card-rating"><i class="fa-solid fa-star"></i> 4.9</span>
+              </div>
+              <div class="rec-card-body">
+                <span class="rec-card-illustration">🚄</span>
+              </div>
+              <div class="rec-card-footer">
+                <h3 class="rec-card-title">Vande Bharat Express</h3>
+                <span class="rec-card-price">From ₹850</span>
+              </div>
+            </div>
+
+            <!-- Card 4: Events (Purple Glow) -->
+            <div class="recommended-card rec-card-purple" onclick="alert('Sunburn EDM Festival VIP passes starting at ₹1,200')">
+              <div class="rec-card-top-row">
+                <span class="rec-card-tag">Events</span>
+                <span class="rec-card-rating"><i class="fa-solid fa-star"></i> 4.7</span>
+              </div>
+              <div class="rec-card-body">
+                <span class="rec-card-illustration">🎪</span>
+              </div>
+              <div class="rec-card-footer">
+                <h3 class="rec-card-title">Sunburn EDM Festival</h3>
+                <span class="rec-card-price">From ₹1,200</span>
+              </div>
+            </div>
+
+            <!-- Card 5: Play Time (Green Glow) -->
+            <div class="recommended-card rec-card-green" onclick="openModal('modal-parking')">
+              <div class="rec-card-top-row">
+                <span class="rec-card-tag">Play Time</span>
+                <span class="rec-card-rating"><i class="fa-solid fa-star"></i> 4.9</span>
+              </div>
+              <div class="rec-card-body">
+                <span class="rec-card-illustration">🎮</span>
+              </div>
+              <div class="rec-card-footer">
+                <h3 class="rec-card-title">Zen Strike Play Arena</h3>
+                <span class="rec-card-price">From ₹400</span>
+              </div>
+            </div>
+
           </div>
         </div>
 
-        <!-- ═══ MAIN 4 SERVICE BLOCKS (Big 2-column cards per wireframe) ═══ -->
-        <div class="home-main-4-grid">
+        <!-- Live Fleet & Route Tracker Map Section -->
+        <div class="home-map-wrapper">
+          <div class="home-map-title-row">
+            <h2>Live Fleet & Route Tracker</h2>
+            <span class="action-link" onclick="toggleMapHotspots()"><i class="fa-solid fa-radar"></i> Refresh Nearby Fleet</span>
+          </div>
+          
+          <div class="home-map-panel">
+            <div id="explore-map"></div>
+            
+            <!-- Floating Actions Overlay -->
+            <div class="map-floating-bottom-left">
+              <button class="map-action-btn-liked" id="home-liked-btn" onclick="openModal('modal-liked')">
+                <i class="fa-solid fa-star"></i> LIKED
+              </button>
+            </div>
+            <div class="map-floating-bottom-right">
+              <button class="map-action-btn-nearby" id="home-nearby-btn" onclick="toggleMapHotspots()">
+                <i class="fa-solid fa-radar"></i> NEAR BY FIND
+              </button>
+            </div>
+            
+            <!-- Floating Map Controls -->
+            <div class="map-floating-controls">
+              <button class="map-circle-btn" onclick="zoomInMap()"><i class="fa-solid fa-plus"></i></button>
+              <button class="map-circle-btn" onclick="zoomOutMap()"><i class="fa-solid fa-minus"></i></button>
+              <button class="map-circle-btn" onclick="recenterMap()"><i class="fa-solid fa-crosshairs"></i></button>
+            </div>
 
-          <!-- Row 1: RIDES | CARRIER -->
-          <div class="home-main-card btn-rides" onclick="openModal('modal-ride')">
-            <i class="fa-solid fa-car"></i>
-            <span>RIDES</span>
-          </div>
-          <div class="home-main-card btn-carrier" onclick="openModal('modal-carrier')">
-            <i class="fa-solid fa-truck"></i>
-            <span>CARRIER</span>
-          </div>
-
-          <!-- Row 2: RENTAL | COMMUNITY -->
-          <div class="home-main-card btn-rental" onclick="openModal('modal-rental')">
-            <i class="fa-solid fa-key"></i>
-            <span>RENTAL</span>
-          </div>
-          <div class="home-main-card btn-community" onclick="openModal('modal-community')">
-            <i class="fa-solid fa-users"></i>
-            <span>COMMUNITY</span>
-          </div>
-
-        </div>
-
-        <!-- ═══ ROW 3: DRIVERS ON DEMAND | SHARED PARKING ═══ -->
-        <div class="home-secondary-grid">
-          <div class="home-grid-btn btn-drivers" onclick="openModal('modal-drivers')">
-            <div class="home-grid-btn-inner">
-              <i class="fa-solid fa-user-tie"></i>
-              <span>DRIVERS ON DEMAND</span>
+            <!-- Floating Active Booking Card overlay on Map -->
+            <div class="map-active-booking-panel floating-map-booking-panel" id="map-active-booking-card" style="display: none;">
+              <div class="panel-header-badge">LIVE TRACKING ACTIVE</div>
+              <div class="panel-main">
+                <div class="panel-icon-wrap" id="map-active-booking-icon-container">
+                  <i class="fa-solid fa-car-side" id="map-active-booking-icon"></i>
+                </div>
+                <div class="panel-desc">
+                  <h4 id="map-active-booking-title">Ride to Kempegowda Airport</h4>
+                  <p id="map-active-booking-desc">Driver is starting journey...</p>
+                </div>
+              </div>
+              <button class="cancel-booking-btn" onclick="openModal('modal-bookings-registry')">Manage Ticket Details</button>
             </div>
-          </div>
-          <div class="home-grid-btn btn-parking" onclick="openModal('modal-parking')">
-            <div class="home-grid-btn-inner">
-              <i class="fa-solid fa-square-p"></i>
-              <span>SHARED PARKING</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- ═══ ROW: TRANSPORT MODES — AIR | TRAIN | SEA ═══ -->
-        <div class="home-transport-grid">
-          <div class="home-grid-btn btn-air highlighted-blue" onclick="openModal('modal-air')">
-            <div class="home-grid-btn-inner">
-              <i class="fa-solid fa-plane"></i>
-              <span>AIR</span>
-              <span class="ribbon-tag ribbon-blue">FLY</span>
-            </div>
-          </div>
-          <div class="home-grid-btn btn-train highlighted-purple" onclick="openModal('modal-train')">
-            <div class="home-grid-btn-inner">
-              <i class="fa-solid fa-train"></i>
-              <span>TRAIN</span>
-              <span class="ribbon-tag ribbon-purple">RAIL</span>
-            </div>
-          </div>
-          <div class="home-grid-btn btn-sea highlighted-teal" onclick="openModal('modal-sea')">
-            <div class="home-grid-btn-inner">
-              <i class="fa-solid fa-ship"></i>
-              <span>SEA</span>
-              <span class="ribbon-tag ribbon-teal">SAIL</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- ═══ ROW 4: TRAVEL GUIDE | BOOKING | FIND MY VEHICLE ═══ -->
-        <div class="home-highlight-grid">
-          <div class="home-grid-btn btn-travel-guide highlighted-orange" onclick="openModal('modal-travel-guide')">
-            <div class="home-grid-btn-inner">
-              <i class="fa-solid fa-compass"></i>
-              <span>TRAVEL GUIDE</span>
-              <span class="ribbon-tag">HOT</span>
-            </div>
-          </div>
-          <div class="home-grid-btn btn-booking highlighted-orange" onclick="openModal('modal-bookings-registry')">
-            <div class="home-grid-btn-inner">
-              <i class="fa-solid fa-receipt"></i>
-              <span>BOOKING</span>
-              <span class="ribbon-tag">MANAGE</span>
-            </div>
-          </div>
-          <div class="home-grid-btn btn-find-vehicle" onclick="openModal('modal-find-vehicle')">
-            <div class="home-grid-btn-inner">
-              <i class="fa-solid fa-location-crosshairs"></i>
-              <span>FIND MY VEHICLE</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- ═══ ROW 5: AUTO NEWS + MECHANIC ═══ -->
-        <div class="home-bottom-actions">
-          <div class="home-news-trigger-btn" onclick="scrollToNewsSection()">
-            <i class="fa-solid fa-newspaper"></i>
-            <span>AUTO NEWS</span>
-          </div>
-          <div class="home-news-trigger-btn" style="border-color: rgba(100,116,139,0.5);" onclick="openModal('modal-mechanic')">
-            <i class="fa-solid fa-screwdriver-wrench" style="color:#64748b;"></i>
-            <span>MECHANIC</span>
           </div>
         </div>
 
@@ -1035,6 +1134,34 @@
         </div>
       </div>
     </div>
+  </div>
+
+  <!-- Live Booking Activity Toast (Bokspot Style) -->
+  <div class="live-activity-toast" id="live-activity-toast">
+    <div class="live-toast-icon">
+      <i class="fa-solid fa-circle-check"></i>
+    </div>
+    <div class="live-toast-content">
+      <div class="live-toast-badge">
+        <span style="width: 6px; height: 6px; background: var(--success); border-radius: 50%; display: inline-block; animation: pulseGreen 1s infinite alternate;"></span>
+        LIVE BOOKING ACTIVITY
+      </div>
+      <div class="live-toast-text" id="live-toast-text">
+        <strong>Amit</strong> in Bangalore booked <strong>Art Workshop</strong> at Cubbon ArtHouse
+      </div>
+      <div class="live-toast-meta" id="live-toast-meta">
+        10 mins ago • <span style="text-decoration: underline; cursor: pointer; color: var(--primary-header);" onclick="switchTab('store')">VIEW SERVICE &gt;</span>
+      </div>
+    </div>
+    <div class="live-toast-close" onclick="hideLiveActivityToast()">
+      <i class="fa-solid fa-xmark"></i>
+    </div>
+  </div>
+
+  <!-- Floating AI Copilot Trigger (Bokspot Style chat widget) -->
+  <div class="floating-ai-trigger" id="floating-ai-trigger" onclick="toggleFloatingAiCopilot()">
+    <i class="fa-solid fa-comments"></i>
+    <div class="floating-ai-pulse"></div>
   </div>
 
   <!-- Leaflet Map JS CDN -->
