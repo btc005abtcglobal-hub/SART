@@ -20,6 +20,13 @@
     
     <!-- TOP NAVIGATION BAR -->
     <header class="web-navbar">
+      <!-- Location Pinned to LEFT (user wireframe requirement) -->
+      <div class="location-nav-btn" onclick="requestLocation()" style="margin-right: 12px; flex-shrink: 0;">
+        <i class="fa-solid fa-location-dot"></i>
+        <span id="nav-location-txt">Indiranagar, Bengaluru</span>
+        <i class="fa-solid fa-chevron-down" style="font-size: 8px;"></i>
+      </div>
+
       <div class="nav-brand" onclick="switchTab('home')">
         <i class="fa-solid fa-compass-drafting brand-icon"></i>
         <span>SART</span>
@@ -52,13 +59,6 @@
       
       <!-- Right Controls -->
       <div class="nav-controls">
-        <!-- Location Dropdown (Bokspot Style) -->
-        <div class="location-nav-btn" onclick="requestLocation()">
-          <i class="fa-solid fa-location-dot"></i>
-          <span id="nav-location-txt">Indiranagar, Bengaluru</span>
-          <i class="fa-solid fa-chevron-down" style="font-size: 8px;"></i>
-        </div>
-
         <!-- Wallet quick display -->
         <div class="wallet-badge" onclick="switchTab('wallet')">
           <i class="fa-solid fa-wallet"></i>
@@ -72,7 +72,7 @@
           <span class="ctrl-badge" id="notif-badge">3</span>
         </div>
         
-        <!-- Profile Dropdown (Bokspot Style) -->
+        <!-- Profile Dropdown -->
         <div class="profile-nav-btn" onclick="switchTab('profile')">
           <i class="fa-solid fa-circle-user"></i>
           <span>Alex Carter</span>
@@ -133,14 +133,14 @@
 
         <!-- Hero Carousel Section (Bokspot Style) -->
         <div class="hero-carousel-container">
-          <!-- Slide 1 (Sports Event) -->
+          <!-- Slide 1 (Rides) -->
           <div class="carousel-slide active" id="slide-0">
-            <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=1200&q=80');"></div>
+            <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?auto=format&fit=crop&w=1200&q=80');"></div>
             <div class="slide-content">
-              <span class="slide-tag" style="background: rgba(16, 185, 129, 0.15); color: #10b981; border-color: rgba(16,185,129,0.3);">Sports Event</span>
-              <h2 class="slide-title">Elite Turf Booking</h2>
-              <p class="slide-desc">Reserve premium football turfs and cricket nets with smart slot scheduling.</p>
-              <button class="slide-btn" onclick="openModal('modal-parking')">RESERVE TURF</button>
+              <span class="slide-tag" style="background: rgba(239, 68, 68, 0.15); color: #ef4444; border-color: rgba(239,68,68,0.3);">City Rides</span>
+              <h2 class="slide-title">Book a Ride Instantly</h2>
+              <p class="slide-desc">Get a cab, share a ride or book a premium vehicle — wherever you are, in seconds.</p>
+              <button class="slide-btn" onclick="openModal('modal-ride')">BOOK RIDE NOW</button>
             </div>
           </div>
           <!-- Slide 2 (EV Rental) -->
@@ -153,14 +153,14 @@
               <button class="slide-btn" onclick="openModal('modal-rental')">RENT EV NOW</button>
             </div>
           </div>
-          <!-- Slide 3 (Concert / Air) -->
+          <!-- Slide 3 (Carrier & Logistics) -->
           <div class="carousel-slide" id="slide-2">
-            <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=1200&q=80');"></div>
+            <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?auto=format&fit=crop&w=1200&q=80');"></div>
             <div class="slide-content">
-              <span class="slide-tag" style="background: rgba(168, 85, 247, 0.15); color: #a855f7; border-color: rgba(168,85,247,0.3);">Music Festival</span>
-              <h2 class="slide-title">Sunburn EDM Festival</h2>
-              <p class="slide-desc">VIP terminal lounge packages and dynamic chopper charters direct to the venue.</p>
-              <button class="slide-btn" onclick="openModal('modal-air')">VIP BOOKING</button>
+              <span class="slide-tag" style="background: rgba(245, 158, 11, 0.15); color: #f59e0b; border-color: rgba(245,158,11,0.3);">Carrier & Logistics</span>
+              <h2 class="slide-title">Heavy Carrier On Demand</h2>
+              <p class="slide-desc">Move goods, parcels and industrial cargo with full-track visibility across India.</p>
+              <button class="slide-btn" onclick="openModal('modal-carrier')">BOOK CARRIER</button>
             </div>
           </div>
 
@@ -172,23 +172,39 @@
           </div>
         </div>
 
-        <!-- Shortcuts Row -->
+        <!-- Shortcuts Row (Transport Only) -->
         <div class="shortcuts-row">
-          <div class="shortcut-pill" onclick="openModal('modal-air')">
-            <i class="fa-solid fa-plane-departure" style="color: #3b82f6;"></i>
-            <span>Flight Booking</span>
-          </div>
-          <div class="shortcut-pill" onclick="openModal('modal-rental')">
-            <i class="fa-solid fa-hotel" style="color: #f97316;"></i>
-            <span>Hotel Booking</span>
+          <div class="shortcut-pill" onclick="openModal('modal-ride')">
+            <i class="fa-solid fa-car-side" style="color: #ef4444;"></i>
+            <span>Rides</span>
           </div>
           <div class="shortcut-pill" onclick="openModal('modal-carrier')">
-            <i class="fa-solid fa-truck" style="color: #10b981;"></i>
-            <span>Bus Booking</span>
+            <i class="fa-solid fa-truck-moving" style="color: #f97316;"></i>
+            <span>Carrier</span>
           </div>
-          <div class="shortcut-pill" onclick="openModal('modal-travel-guide')">
-            <i class="fa-solid fa-compass" style="color: #a855f7;"></i>
-            <span>Exhibition Entry</span>
+          <div class="shortcut-pill" onclick="openModal('modal-rental')">
+            <i class="fa-solid fa-key" style="color: #3b82f6;"></i>
+            <span>Rental</span>
+          </div>
+          <div class="shortcut-pill" onclick="openModal('modal-community')">
+            <i class="fa-solid fa-users" style="color: #a855f7;"></i>
+            <span>Community</span>
+          </div>
+          <div class="shortcut-pill" onclick="openModal('modal-drivers')">
+            <i class="fa-solid fa-user-tie" style="color: #10b981;"></i>
+            <span>Drivers On Demand</span>
+          </div>
+          <div class="shortcut-pill" onclick="openModal('modal-air')">
+            <i class="fa-solid fa-plane-departure" style="color: #06b6d4;"></i>
+            <span>Air Travel</span>
+          </div>
+          <div class="shortcut-pill" onclick="openModal('modal-train')">
+            <i class="fa-solid fa-train" style="color: #6366f1;"></i>
+            <span>Train</span>
+          </div>
+          <div class="shortcut-pill" onclick="openModal('modal-parking')">
+            <i class="fa-solid fa-square-parking" style="color: #14b8a6;"></i>
+            <span>Shared Parking</span>
           </div>
           <div class="shortcut-pill" onclick="openModal('modal-find-vehicle')">
             <i class="fa-solid fa-location-crosshairs" style="color: #ec4899;"></i>
@@ -204,84 +220,162 @@
           </div>
         </div>
 
-        <!-- Recommended For You (Colorful Glow Cards) -->
+        <!-- SART Transport Services Grid -->
         <div class="recommended-section">
-          <h2>Recommended For You</h2>
-          <p>Curated bookings and activities tailored to your profile</p>
-          <div class="recommended-grid">
-            
-            <!-- Card 1: Avengers Movie (Red Glow) -->
-            <div class="recommended-card rec-card-red" onclick="alert('Avengers: Secret Wars Booking - Tickets from ₹190')">
+          <h2>Book a Service</h2>
+          <p>All SART transportation services at your fingertips</p>
+          <div class="recommended-grid" style="grid-template-columns: repeat(5, 1fr);">
+
+            <!-- Card 1: Rides (Red) -->
+            <div class="recommended-card rec-card-red" onclick="openModal('modal-ride')">
               <div class="rec-card-top-row">
-                <span class="rec-card-tag">Avengers Movie</span>
+                <span class="rec-card-tag">Road</span>
                 <span class="rec-card-rating"><i class="fa-solid fa-star"></i> 4.9</span>
               </div>
               <div class="rec-card-body">
-                <span class="rec-card-illustration">🎬</span>
+                <span class="rec-card-illustration">🚗</span>
               </div>
               <div class="rec-card-footer">
-                <h3 class="rec-card-title">Avengers: Secret Wars</h3>
-                <span class="rec-card-price">From ₹190</span>
+                <h3 class="rec-card-title">Rides</h3>
+                <span class="rec-card-price">From ₹800</span>
               </div>
             </div>
 
-            <!-- Card 2: Hotel / Stay (Orange Glow) -->
-            <div class="recommended-card rec-card-orange" onclick="openModal('modal-rental')">
+            <!-- Card 2: Carrier (Orange) -->
+            <div class="recommended-card rec-card-orange" onclick="openModal('modal-carrier')">
               <div class="rec-card-top-row">
-                <span class="rec-card-tag">Stay & Accom</span>
+                <span class="rec-card-tag">Logistics</span>
                 <span class="rec-card-rating"><i class="fa-solid fa-star"></i> 4.8</span>
               </div>
               <div class="rec-card-body">
-                <span class="rec-card-illustration">🏨</span>
+                <span class="rec-card-illustration">🚛</span>
               </div>
               <div class="rec-card-footer">
-                <h3 class="rec-card-title">Grand Palace Resorts</h3>
-                <span class="rec-card-price">From ₹4,500</span>
+                <h3 class="rec-card-title">Carrier</h3>
+                <span class="rec-card-price">From ₹3,500</span>
               </div>
             </div>
 
-            <!-- Card 3: Train (Blue Glow) -->
-            <div class="recommended-card rec-card-blue" onclick="openModal('modal-train')">
+            <!-- Card 3: Rental (Blue) -->
+            <div class="recommended-card rec-card-blue" onclick="openModal('modal-rental')">
               <div class="rec-card-top-row">
-                <span class="rec-card-tag">Your Next Train</span>
+                <span class="rec-card-tag">Self-Drive</span>
                 <span class="rec-card-rating"><i class="fa-solid fa-star"></i> 4.9</span>
               </div>
               <div class="rec-card-body">
-                <span class="rec-card-illustration">🚄</span>
+                <span class="rec-card-illustration">🔑</span>
               </div>
               <div class="rec-card-footer">
-                <h3 class="rec-card-title">Vande Bharat Express</h3>
-                <span class="rec-card-price">From ₹850</span>
+                <h3 class="rec-card-title">Rental</h3>
+                <span class="rec-card-price">From ₹1,800/day</span>
               </div>
             </div>
 
-            <!-- Card 4: Events (Purple Glow) -->
-            <div class="recommended-card rec-card-purple" onclick="alert('Sunburn EDM Festival VIP passes starting at ₹1,200')">
+            <!-- Card 4: Community (Purple) -->
+            <div class="recommended-card rec-card-purple" onclick="openModal('modal-community')">
               <div class="rec-card-top-row">
-                <span class="rec-card-tag">Events</span>
+                <span class="rec-card-tag">Shared</span>
                 <span class="rec-card-rating"><i class="fa-solid fa-star"></i> 4.7</span>
               </div>
               <div class="rec-card-body">
-                <span class="rec-card-illustration">🎪</span>
+                <span class="rec-card-illustration">👥</span>
               </div>
               <div class="rec-card-footer">
-                <h3 class="rec-card-title">Sunburn EDM Festival</h3>
+                <h3 class="rec-card-title">Community</h3>
+                <span class="rec-card-price">Ride Pooling</span>
+              </div>
+            </div>
+
+            <!-- Card 5: Drivers On Demand (Green) -->
+            <div class="recommended-card rec-card-green" onclick="openModal('modal-drivers')">
+              <div class="rec-card-top-row">
+                <span class="rec-card-tag">On Demand</span>
+                <span class="rec-card-rating"><i class="fa-solid fa-star"></i> 4.8</span>
+              </div>
+              <div class="rec-card-body">
+                <span class="rec-card-illustration">👨‍✈️</span>
+              </div>
+              <div class="rec-card-footer">
+                <h3 class="rec-card-title">Drivers On Demand</h3>
                 <span class="rec-card-price">From ₹1,200</span>
               </div>
             </div>
 
-            <!-- Card 5: Play Time (Green Glow) -->
-            <div class="recommended-card rec-card-green" onclick="openModal('modal-parking')">
+            <!-- Card 6: Shared Parking (Teal) -->
+            <div class="recommended-card rec-card-teal" onclick="openModal('modal-parking')">
               <div class="rec-card-top-row">
-                <span class="rec-card-tag">Play Time</span>
+                <span class="rec-card-tag">Parking</span>
+                <span class="rec-card-rating"><i class="fa-solid fa-star"></i> 4.6</span>
+              </div>
+              <div class="rec-card-body">
+                <span class="rec-card-illustration">🅿️</span>
+              </div>
+              <div class="rec-card-footer">
+                <h3 class="rec-card-title">Shared Parking</h3>
+                <span class="rec-card-price">From ₹150</span>
+              </div>
+            </div>
+
+            <!-- Card 7: Air (Yellow/Gold) -->
+            <div class="recommended-card rec-card-pink" onclick="openModal('modal-air')" style="--glow-pink: #f59e0b;">
+              <div class="rec-card-top-row">
+                <span class="rec-card-tag">Fly</span>
                 <span class="rec-card-rating"><i class="fa-solid fa-star"></i> 4.9</span>
               </div>
               <div class="rec-card-body">
-                <span class="rec-card-illustration">🎮</span>
+                <span class="rec-card-illustration">✈️</span>
               </div>
               <div class="rec-card-footer">
-                <h3 class="rec-card-title">Zen Strike Play Arena</h3>
-                <span class="rec-card-price">From ₹400</span>
+                <h3 class="rec-card-title">Air Travel</h3>
+                <span class="rec-card-price">From ₹4,500</span>
+              </div>
+            </div>
+
+            <!-- Card 8: Train (Indigo) -->
+            <div class="recommended-card" style="background: rgba(15,20,28,0.7); border: 1px solid rgba(99,102,241,0.15); cursor:pointer;" onclick="openModal('modal-train')">
+              <div style="position:absolute;top:0;left:0;width:100%;height:3px;background:#6366f1;"></div>
+              <div class="rec-card-top-row">
+                <span class="rec-card-tag">Rail</span>
+                <span class="rec-card-rating"><i class="fa-solid fa-star"></i> 4.9</span>
+              </div>
+              <div class="rec-card-body">
+                <span class="rec-card-illustration">🚆</span>
+              </div>
+              <div class="rec-card-footer">
+                <h3 class="rec-card-title">Train</h3>
+                <span class="rec-card-price">From ₹850</span>
+              </div>
+            </div>
+
+            <!-- Card 9: Sea (Cyan) -->
+            <div class="recommended-card" style="background: rgba(15,20,28,0.7); border: 1px solid rgba(6,182,212,0.15); cursor:pointer;" onclick="openModal('modal-sea')">
+              <div style="position:absolute;top:0;left:0;width:100%;height:3px;background:#06b6d4;"></div>
+              <div class="rec-card-top-row">
+                <span class="rec-card-tag">Sail</span>
+                <span class="rec-card-rating"><i class="fa-solid fa-star"></i> 4.7</span>
+              </div>
+              <div class="rec-card-body">
+                <span class="rec-card-illustration">⛴️</span>
+              </div>
+              <div class="rec-card-footer">
+                <h3 class="rec-card-title">Sea Voyage</h3>
+                <span class="rec-card-price">From ₹600</span>
+              </div>
+            </div>
+
+            <!-- Card 10: Mechanic (Slate) -->
+            <div class="recommended-card" style="background: rgba(15,20,28,0.7); border: 1px solid rgba(100,116,139,0.2); cursor:pointer;" onclick="openModal('modal-mechanic')">
+              <div style="position:absolute;top:0;left:0;width:100%;height:3px;background:#64748b;"></div>
+              <div class="rec-card-top-row">
+                <span class="rec-card-tag">Service</span>
+                <span class="rec-card-rating"><i class="fa-solid fa-star"></i> 4.8</span>
+              </div>
+              <div class="rec-card-body">
+                <span class="rec-card-illustration">🔧</span>
+              </div>
+              <div class="rec-card-footer">
+                <h3 class="rec-card-title">Mechanic</h3>
+                <span class="rec-card-price">From ₹1,200</span>
               </div>
             </div>
 
