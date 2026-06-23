@@ -1257,6 +1257,37 @@ function openProfileSubpage(featureId, title) {
         <button class="action-btn" style="padding: 10px; font-size:12px; align-self: flex-start;" onclick="alert('Adding cards restricted in front-end demo.')">Link UPI / Debit Card</button>
       </div>
     `;
+  } else if (featureId === 'safety') {
+    htmlContent = `
+      <div style="display: flex; flex-direction: column; gap: 14px;">
+        <h4><i class="fa-solid fa-shield-halved"></i> Safety & Ride Settings</h4>
+        <p style="font-size: 12px; color: var(--text-secondary); line-height: 1.4;">Configure custom safety flags and driver matching rules for your commutes.</p>
+        
+        <div style="display:flex; justify-content:space-between; align-items:center; border: 1px solid var(--dark-border); padding: 12px; border-radius: 12px; background: rgba(0,0,0,0.2);">
+          <div>
+            <div style="font-size:12.5px; font-weight:bold;">Kids & Women Safe Mode</div>
+            <div style="font-size:10px; color:var(--text-secondary);">Only matches with 5-star verified drivers with safety shield partition.</div>
+          </div>
+          <label class="switch-container" style="position:relative; display:inline-block; width:40px; height:20px; cursor:pointer;">
+            <input type="checkbox" checked style="opacity:0; width:0; height:0;">
+            <span style="position:absolute; top:0; left:0; right:0; bottom:0; background-color:#157f8a; transition:0.3s; border-radius:34px;"></span>
+          </label>
+        </div>
+        
+        <div style="display:flex; justify-content:space-between; align-items:center; border: 1px solid var(--dark-border); padding: 12px; border-radius: 12px; background: rgba(0,0,0,0.2);">
+          <div>
+            <div style="font-size:12.5px; font-weight:bold;">Professional Driver Mode</div>
+            <div style="font-size:10px; color:var(--text-secondary);">Matches only executive sedan classes. Silent ride environment.</div>
+          </div>
+          <label class="switch-container" style="position:relative; display:inline-block; width:40px; height:20px; cursor:pointer;">
+            <input type="checkbox" style="opacity:0; width:0; height:0;">
+            <span style="position:absolute; top:0; left:0; right:0; bottom:0; background-color:#8b949e; transition:0.3s; border-radius:34px;"></span>
+          </label>
+        </div>
+        
+        <button class="action-btn" style="padding: 10px; font-size:12px; align-self: flex-start;" onclick="backToProfile()">Save Preferences</button>
+      </div>
+    `;
   } else {
     htmlContent = `
       <div>
@@ -1691,9 +1722,9 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('nav-location-txt').innerText = appState.location;
   }
   
-  // Start automated banner carousel & live notifications
+  // Start automated banner carousel & theme init
   startCarouselAutoPlay();
-  initLiveActivitySystem();
+  initAppTheme();
 
   // Check if an active booking was left in state, show overlay
   const activeB = appState.bookings.find(b => b.status === 'Active');
@@ -1755,82 +1786,81 @@ function stopCarouselAutoPlay() {
   }
 }
 
-// Floating AI Copilot Trigger
-function toggleFloatingAiCopilot() {
-  switchTab('ai');
-  const trigger = document.getElementById('floating-ai-trigger');
-  if (trigger) {
-    trigger.style.transform = 'scale(0.95)';
-    setTimeout(() => {
-      trigger.style.transform = '';
-    }, 150);
+// Floating AI chatbot triggers and toast notifications are removed to streamline the Bokspot UI.
+
+// ============================================================================
+// 16. BOKSPOT ACCOUNT DROPDOWN & THEME SYSTEM
+// ============================================================================
+
+function toggleProfileDropdown(event) {
+  if (event) event.stopPropagation();
+  const menu = document.getElementById('profile-dropdown-menu');
+  if (menu) {
+    menu.classList.toggle('show');
   }
 }
 
-// Live Booking Activity Toast Notification
-const MOCK_ACTIVITIES = [
-  { name: "Rohan", city: "Chennai", item: "Root Canal Treatment", loc: "Apollo Dental Care", time: "2 mins ago", category: "lifestyle", emoji: "🦷" },
-  { name: "Amit", city: "Bengaluru", item: "Airport Sedan Ride", loc: "Kempegowda Airport", time: "10 mins ago", category: "ride", emoji: "🚗" },
-  { name: "Rajesh Kumar", city: "Indiranagar", item: "Tire Diagnostics", loc: "SART Service Node", time: "2 mins ago", category: "mechanic", emoji: "🔧" },
-  { name: "Sneha", city: "Mumbai", item: "Luxury Yacht Cruise", loc: "Gateway Pier", time: "5 mins ago", category: "sea", emoji: "⛴️" },
-  { name: "Vikram", city: "Delhi", item: "Heli Commute Charter", loc: "IGI Heliport", time: "1 min ago", category: "air", emoji: "✈️" },
-  { name: "Deepa", city: "Chennai", item: "Vande Bharat Express", loc: "Central Terminal", time: "12 mins ago", category: "train", emoji: "🚆" },
-  { name: "Arjun", city: "Koramangala", item: "Tata Nexon EV Drive", loc: "Self-Drive Depot", time: "8 mins ago", category: "rental", emoji: "🔑" },
-  { name: "Meera", city: "Bengaluru", item: "Valet Parking Slot", loc: "Commercial Street", time: "15 mins ago", category: "parking", emoji: "🅿️" }
-];
-
-function showRandomLiveActivity(act = null) {
-  if (!bitAlertsEnabled) return;
-  const toast = document.getElementById('live-activity-toast');
-  const textEl = document.getElementById('live-toast-text');
-  const emojiEl = document.getElementById('live-toast-emoji');
-  const timeEl = document.getElementById('live-toast-time');
-  if (!toast || !textEl || !emojiEl || !timeEl) return;
-  
-  const selectedAct = act || MOCK_ACTIVITIES[Math.floor(Math.random() * MOCK_ACTIVITIES.length)];
-  
-  if (!act) {
-    const newAct = { ...selectedAct, time: "Just now" };
-    bitActivitiesList.unshift(newAct);
-    if (bitActivitiesList.length > 15) bitActivitiesList.pop();
-    renderBitFeedList();
+function closeProfileDropdown() {
+  const menu = document.getElementById('profile-dropdown-menu');
+  if (menu) {
+    menu.classList.remove('show');
   }
-  
-  emojiEl.innerText = selectedAct.emoji;
-  textEl.innerHTML = `<strong>${selectedAct.name}</strong> in ${selectedAct.city} booked <u>${selectedAct.item}</u> at ${selectedAct.loc}`;
-  timeEl.innerText = selectedAct.time;
-  
-  let targetTab = 'home';
-  if (selectedAct.category === 'store') targetTab = 'store';
-  else if (selectedAct.category === 'mechanic') targetTab = 'profile'; 
-  
-  const viewLink = toast.querySelector('.view-link');
-  if (viewLink) {
-    viewLink.setAttribute('onclick', `switchTab('${targetTab}')`);
-  }
-  
-  toast.classList.add('show');
-  
-  // Automatically hide after 6 seconds
-  setTimeout(() => {
-    hideLiveActivityToast();
-  }, 6000);
 }
 
-function hideLiveActivityToast() {
-  const toast = document.getElementById('live-activity-toast');
-  if (toast) toast.classList.remove('show');
+// Global window click listener to dismiss profile dropdown when clicking outside
+window.addEventListener('click', function(e) {
+  const menu = document.getElementById('profile-dropdown-menu');
+  const trigger = document.querySelector('.profile-nav-btn');
+  if (menu && menu.classList.contains('show')) {
+    if (!menu.contains(e.target) && (!trigger || !trigger.contains(e.target))) {
+      closeProfileDropdown();
+    }
+  }
+});
+
+function setAppTheme(theme) {
+  const body = document.body;
+  const lightBtn = document.getElementById('theme-btn-light');
+  const darkBtn = document.getElementById('theme-btn-dark');
+  const systemBtn = document.getElementById('theme-btn-system');
+  
+  if (lightBtn) lightBtn.classList.remove('active');
+  if (darkBtn) darkBtn.classList.remove('active');
+  if (systemBtn) systemBtn.classList.remove('active');
+  
+  const targetBtn = document.getElementById(`theme-btn-${theme}`);
+  if (targetBtn) targetBtn.classList.add('active');
+  
+  if (theme === 'light') {
+    body.classList.add('light-theme');
+    localStorage.setItem('sart-theme', 'light');
+  } else if (theme === 'dark') {
+    body.classList.remove('light-theme');
+    localStorage.setItem('sart-theme', 'dark');
+  } else if (theme === 'system') {
+    localStorage.setItem('sart-theme', 'system');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (prefersDark) {
+      body.classList.remove('light-theme');
+    } else {
+      body.classList.add('light-theme');
+    }
+  }
 }
 
-function initLiveActivitySystem() {
-  // Show first toast after 3 seconds
-  setTimeout(() => {
-    showRandomLiveActivity();
-  }, 4000);
+function initAppTheme() {
+  const savedTheme = localStorage.getItem('sart-theme') || 'dark';
+  setAppTheme(savedTheme);
   
-  // Show a new toast every 25 seconds
-  setInterval(() => {
-    showRandomLiveActivity();
-  }, 25000);
+  // Listen for system theme changes if set to system
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+    if (localStorage.getItem('sart-theme') === 'system') {
+      if (e.matches) {
+        document.body.classList.remove('light-theme');
+      } else {
+        document.body.classList.add('light-theme');
+      }
+    }
+  });
 }
 

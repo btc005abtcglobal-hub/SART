@@ -53,30 +53,92 @@
       
       <!-- Right Controls -->
       <div class="nav-controls">
-        <!-- Wallet quick display -->
+        <!-- Wallet quick display (points removed) -->
         <div class="wallet-badge" onclick="switchTab('wallet')">
           <i class="fa-solid fa-wallet"></i>
           <span class="wallet-val" id="nav-wallet-balance">₹15,000.00</span>
-          <span class="points-val" id="nav-wallet-points">2,450 pts</span>
         </div>
         
-        <!-- Notifications bell -->
-        <div class="ctrl-btn" onclick="openModal('modal-notifications')">
-          <i class="fa-solid fa-bell"></i>
-          <span class="ctrl-badge" id="notif-badge">3</span>
+        <!-- Search icon button (Bokspot Style) -->
+        <div class="ctrl-btn" onclick="openModal('modal-search')">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </div>
+        
+        <!-- Liked routes icon button (Bokspot Style) -->
+        <div class="ctrl-btn" onclick="openModal('modal-liked')">
+          <i class="fa-solid fa-heart"></i>
+        </div>
+
+        <!-- Bookings Registry icon button (Bokspot Style) -->
+        <div class="ctrl-btn" onclick="openModal('modal-bookings-registry')">
+          <i class="fa-solid fa-bag-shopping"></i>
         </div>
         
         <!-- Profile Dropdown -->
-        <div class="profile-nav-btn" onclick="switchTab('profile')">
+        <div class="profile-nav-btn" onclick="toggleProfileDropdown(event)" style="position: relative;">
           <i class="fa-solid fa-circle-user"></i>
           <span>Alex Carter</span>
           <i class="fa-solid fa-chevron-down" style="font-size: 9px;"></i>
         </div>
 
-        <!-- BIT Tool Button -->
-        <button class="bit-nav-btn" onclick="openModal('modal-bit-feed')">
-          <i class="fa-solid fa-satellite-dish"></i>
-          <span>BIT Tool</span>
+        <!-- Profile Dropdown Menu Overlay -->
+        <div class="profile-dropdown-menu" id="profile-dropdown-menu">
+          <div class="dropdown-header">
+            <span class="lbl">SIGNED IN AS</span>
+            <strong class="val">alex.carter@sart.com</strong>
+            <span class="flag">🇮🇳 India</span>
+          </div>
+          
+          <div class="dropdown-divider"></div>
+          
+          <a class="dropdown-item" onclick="switchTab('profile'); closeProfileDropdown();">
+            <i class="fa-solid fa-user-gear"></i> Account Profile
+          </a>
+          <div class="dropdown-item-meta">
+            <span class="label"><i class="fa-solid fa-language"></i> Language</span>
+            <span class="value">English</span>
+          </div>
+          <div class="dropdown-item-meta">
+            <span class="label"><i class="fa-solid fa-coins"></i> Currency</span>
+            <span class="value">INR (₹)</span>
+          </div>
+          <div class="dropdown-item-meta">
+            <span class="label"><i class="fa-solid fa-flag"></i> Country</span>
+            <span class="value">India</span>
+          </div>
+          <div class="dropdown-item-meta">
+            <span class="label"><i class="fa-solid fa-shield-halved"></i> Beta Trust</span>
+            <span class="value" style="color: var(--primary);">85%</span>
+          </div>
+          
+          <div class="dropdown-divider"></div>
+          
+          <div class="theme-switch-container">
+            <span class="theme-lbl">DISPLAY THEME</span>
+            <div class="theme-toggles">
+              <button class="theme-toggle-btn" id="theme-btn-light" onclick="setAppTheme('light')">LIGHT</button>
+              <button class="theme-toggle-btn active" id="theme-btn-dark" onclick="setAppTheme('dark')">DARK</button>
+              <button class="theme-toggle-btn" id="theme-btn-system" onclick="setAppTheme('system')">SYSTEM</button>
+            </div>
+          </div>
+          
+          <div class="dropdown-divider"></div>
+          
+          <a class="dropdown-item signout-btn" onclick="alert('Signed out successfully.'); closeProfileDropdown();">
+            <i class="fa-solid fa-arrow-right-from-bracket"></i> Sign out
+          </a>
+        </div>
+
+        <!-- BIT Tool Button (Custom dynamic SVG logo shape) -->
+        <button class="bit-nav-btn" onclick="openModal('modal-bit-feed')" style="background: transparent !important; box-shadow: none !important; border: 1.5px solid var(--primary) !important; color: var(--primary) !important;">
+          <svg class="bit-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="display: inline-block; vertical-align: middle;">
+            <circle cx="5" cy="4" r="2" fill="currentColor"/>
+            <rect x="3" y="8" width="4" height="12" rx="2" fill="currentColor"/>
+            <rect x="10" y="4" width="4" height="16" rx="2" fill="currentColor"/>
+            <rect x="17" y="4" width="4" height="12" rx="2" fill="currentColor"/>
+            <circle cx="19" cy="20" r="2" fill="currentColor"/>
+          </svg>
+          <span style="margin-left: 6px;">BIT Tool</span>
         </button>
       </div>
     </header>
@@ -287,8 +349,7 @@
             </div>
 
             <!-- Card 8: Train (Indigo) -->
-            <div class="recommended-card" style="background: rgba(15,20,28,0.7); border: 1px solid rgba(99,102,241,0.15); cursor:pointer;" onclick="openModal('modal-train')">
-              <div style="position:absolute;top:0;left:0;width:100%;height:3px;background:#6366f1;"></div>
+            <div class="recommended-card rec-card-indigo" onclick="openModal('modal-train')">
               <div class="rec-card-top-row">
                 <span class="rec-card-tag">Rail</span>
                 <span class="rec-card-rating"><i class="fa-solid fa-star"></i> 4.9</span>
@@ -303,8 +364,7 @@
             </div>
 
             <!-- Card 9: Sea (Cyan) -->
-            <div class="recommended-card" style="background: rgba(15,20,28,0.7); border: 1px solid rgba(6,182,212,0.15); cursor:pointer;" onclick="openModal('modal-sea')">
-              <div style="position:absolute;top:0;left:0;width:100%;height:3px;background:#06b6d4;"></div>
+            <div class="recommended-card rec-card-cyan" onclick="openModal('modal-sea')">
               <div class="rec-card-top-row">
                 <span class="rec-card-tag">Sail</span>
                 <span class="rec-card-rating"><i class="fa-solid fa-star"></i> 4.7</span>
@@ -319,8 +379,7 @@
             </div>
 
             <!-- Card 10: Mechanic (Slate) -->
-            <div class="recommended-card" style="background: rgba(15,20,28,0.7); border: 1px solid rgba(100,116,139,0.2); cursor:pointer;" onclick="openModal('modal-mechanic')">
-              <div style="position:absolute;top:0;left:0;width:100%;height:3px;background:#64748b;"></div>
+            <div class="recommended-card rec-card-slate" onclick="openModal('modal-mechanic')">
               <div class="rec-card-top-row">
                 <span class="rec-card-tag">Service</span>
                 <span class="rec-card-rating"><i class="fa-solid fa-star"></i> 4.8</span>
@@ -436,24 +495,110 @@
         </div>
       </section>
       
-      <!-- 3. AUTO STORE TAB (Wireframe Redesign) -->
+      <!-- 3. PREMIUM SART STORE TAB -->
       <section class="tab-screen" id="tab-store">
-        <div class="store-wireframe-container">
-          <!-- Row 1 -->
-          <div class="store-wireframe-card" onclick="alert('Smart Upgrade selected')">
-            <span class="store-card-title">SMART UPGRADE</span>
-            <span class="store-card-sub">(CHOOSE THE BEST FIT FOR YOUR VEHICLE)</span>
+        <div class="store-container">
+          
+          <div class="store-hero">
+            <div class="store-hero-text">
+              <h1>SART Smart Store</h1>
+              <p>Enhance your commute with certified telemetry upgrades, advanced diagnostics, and premium vehicle accessories.</p>
+            </div>
+            <div class="store-hero-image">🔋</div>
           </div>
-          <div class="store-wireframe-card" onclick="openModal('modal-mechanic')">
-            <span class="store-card-title">MECHANIC</span>
+          
+          <div class="store-grid-layout">
+            <!-- Left Products Section -->
+            <div class="store-products-section">
+              <div>
+                <h3 class="store-category-title">Popular Accessories</h3>
+                <div class="store-products-grid">
+                  <!-- Card 1 -->
+                  <div class="store-product-card">
+                    <span class="product-badge">Top Seller</span>
+                    <div class="product-image-container">⚡</div>
+                    <div class="product-info">
+                      <h3>Smart Fast Charger Pro</h3>
+                      <p>Ultra-compact 7.2kW AC home charger with auto battery cut-off and mobile app telemetry link.</p>
+                    </div>
+                    <div class="product-footer">
+                      <span class="product-price">₹18,500</span>
+                      <button class="product-buy-btn" onclick="addStoreItemToCart('Smart Fast Charger Pro', 18500)">Add to Cart</button>
+                    </div>
+                  </div>
+                  <!-- Card 2 -->
+                  <div class="store-product-card">
+                    <span class="product-badge">New</span>
+                    <div class="product-image-container">🧭</div>
+                    <div class="product-info">
+                      <h3>GPS Tracker Pro</h3>
+                      <p>Anti-theft satellite-linked tracker featuring real-time geofence alerts and remote engine lock.</p>
+                    </div>
+                    <div class="product-footer">
+                      <span class="product-price">₹4,200</span>
+                      <button class="product-buy-btn" onclick="addStoreItemToCart('GPS Tracker Pro', 4200)">Add to Cart</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div>
+                <h3 class="store-category-title">Safety & Comfort</h3>
+                <div class="store-products-grid">
+                  <!-- Card 3 -->
+                  <div class="store-product-card">
+                    <span class="product-badge">Safety</span>
+                    <div class="product-image-container">🛞</div>
+                    <div class="product-info">
+                      <h3>Smart Tire Pressure Gauge</h3>
+                      <p>Bluetooth tire valve caps displaying precise PSI diagnostics directly on SART AI dashboard.</p>
+                    </div>
+                    <div class="product-footer">
+                      <span class="product-price">₹2,800</span>
+                      <button class="product-buy-btn" onclick="addStoreItemToCart('Smart Tire Pressure Gauge', 2800)">Add to Cart</button>
+                    </div>
+                  </div>
+                  <!-- Card 4 -->
+                  <div class="store-product-card">
+                    <span class="product-badge">Upgrade</span>
+                    <div class="product-image-container">🛋️</div>
+                    <div class="product-info">
+                      <h3>Chauffeur Comfort Cushion</h3>
+                      <p>Ergonomic memory foam cushion with orthopedic support, tailor-made for long distance trips.</p>
+                    </div>
+                    <div class="product-footer">
+                      <span class="product-price">₹1,950</span>
+                      <button class="product-buy-btn" onclick="addStoreItemToCart('Chauffeur Comfort Cushion', 1950)">Add to Cart</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Right Cart Panel -->
+            <div class="store-cart-panel">
+              <div class="cart-header">
+                <h3>Shopping Cart</h3>
+                <i class="fa-solid fa-cart-shopping" style="color: var(--primary);"></i>
+              </div>
+              <div class="cart-items-list" id="store-cart-items">
+                <!-- Cart items list dynamically populated -->
+                <div style="text-align: center; color: var(--text-secondary); padding: 30px; font-size:12px;">Your cart is empty.</div>
+              </div>
+              <div class="cart-totals">
+                <div class="cart-total-row">
+                  <span>Subtotal</span>
+                  <span id="store-cart-subtotal">₹0.00</span>
+                </div>
+                <div class="cart-total-row" style="font-weight: 800; border-top: 1px solid var(--dark-border); padding-top: 10px; margin-top: 5px;">
+                  <span>Grand Total</span>
+                  <span id="store-cart-total" style="color: var(--primary);">₹0.00</span>
+                </div>
+              </div>
+              <button class="checkout-btn" onclick="checkoutStoreCart()">Pay via SART Wallet</button>
+            </div>
           </div>
-          <!-- Row 2 -->
-          <div class="store-wireframe-card" onclick="alert('Service Center selected')">
-            <span class="store-card-title">SERVICE CENTER</span>
-          </div>
-          <div class="store-wireframe-card" onclick="alert('Accessories Point selected')">
-            <span class="store-card-title">ACCESSORIES POINT</span>
-          </div>
+          
         </div>
       </section>
       
@@ -569,38 +714,118 @@
         </div>
       </section>
       
-      <!-- 5. PROFILE TAB (Wireframe Redesign) -->
+      <!-- 5. PROFILE TAB (Premium Redesign) -->
       <section class="tab-screen" id="tab-profile">
-        <div class="profile-wireframe-container">
+        <div class="profile-container">
           
-          <div class="profile-col">
-            <div class="profile-btn" onclick="alert('Documents')">DOCUMENTS</div>
-            <div class="profile-btn" onclick="alert('Payment')">PAYMENT</div>
-            <div class="profile-btn" onclick="alert('Translate')">TRANSLATE</div>
-            <div class="profile-btn" onclick="alert('Language & Country')">LANGUAGE & COUNTRY</div>
-            <div class="profile-btn" onclick="alert('Help & Support')">HELP & SUPPORT</div>
-            <div class="profile-btn" onclick="alert('About')">ABOUT</div>
-            <div class="profile-btn" onclick="alert('Remainder')">REMAINDER</div>
-            <div class="profile-btn" onclick="alert('Features Suggestion')">FEATURES SUGGESTION</div>
-            <div class="profile-btn" onclick="alert('Ride Sharing')">RIDE SHARING</div>
+          <div class="profile-card">
+            <div class="profile-avatar-container">
+              <div class="profile-avatar">
+                AC
+              </div>
+              <div class="profile-avatar-badge"></div>
+            </div>
+            <div class="profile-info-details">
+              <h2>Alex Carter</h2>
+              <p>alex.carter@sart.com • +91 98765 43210</p>
+              <span class="profile-tier">SART TEAL ELITE</span>
+            </div>
           </div>
-
-          <div class="profile-col">
-            <div class="profile-btn" onclick="alert('Professional Mode')">PROFESSIONAL MODE</div>
-            <div class="profile-btn" onclick="alert('Trip or Ride')">TRIP OR RIDE</div>
-            <div class="profile-btn" onclick="alert('Favourite Drivers')">FAVOURITE DIRIVERS</div>
-            <div class="profile-btn" onclick="switchTab('tab-wallet')">WALLET</div>
-            <div class="profile-btn" onclick="alert('Kids & Women Mode')">KIDS & WOMEN MODE</div>
-            <div class="profile-btn" onclick="alert('Map Settings')">MAP SETTINGS</div>
-            <div class="profile-btn" onclick="alert('History')">HISTORY</div>
-            <div class="profile-btn" onclick="alert('Live Status Dashboard')">LIVE STATUS DASHBOARD</div>
-            <div class="profile-btn" onclick="alert('Logout / Switch A/c')">LOGOUT / SWITCH A/C</div>
+          
+          <div class="profile-stats-row">
+            <div class="profile-stat-box">
+              <div class="num">142</div>
+              <div class="lbl">Total Trips</div>
+            </div>
+            <div class="profile-stat-box">
+              <div class="num">₹15,000.00</div>
+              <div class="lbl">Wallet Balance</div>
+            </div>
+            <div class="profile-stat-box">
+              <div class="num">85%</div>
+              <div class="lbl">Beta Trust</div>
+            </div>
           </div>
-
-          <div class="profile-col">
-            <div class="profile-btn profile-btn-bit" onclick="openModal('modal-bit-feed')">BIT Tool</div>
+          
+          <div class="profile-sections-list">
+            <div class="profile-section-item" onclick="openProfileSubpage('documents', 'Documents & Verification')">
+              <div class="profile-section-left">
+                <div class="profile-section-icon"><i class="fa-solid fa-folder-open"></i></div>
+                <div class="profile-section-text">
+                  <h4>Documents & DigiLocker</h4>
+                  <p>Manage driving licenses, vehicle permit credentials & verified ID cards.</p>
+                </div>
+              </div>
+              <i class="fa-solid fa-chevron-right" style="font-size:12px; color:var(--text-secondary);"></i>
+            </div>
+            
+            <div class="profile-section-item" onclick="openProfileSubpage('payment', 'Payment Settings')">
+              <div class="profile-section-left">
+                <div class="profile-section-icon"><i class="fa-solid fa-credit-card"></i></div>
+                <div class="profile-section-text">
+                  <h4>Linked Payments & Wallets</h4>
+                  <p>Configure bank accounts, credit cards, auto-recharge settings and UPI IDs.</p>
+                </div>
+              </div>
+              <i class="fa-solid fa-chevron-right" style="font-size:12px; color:var(--text-secondary);"></i>
+            </div>
+            
+            <div class="profile-section-item" onclick="openProfileSubpage('safety', 'Safety & Ride Settings')">
+              <div class="profile-section-left">
+                <div class="profile-section-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                <div class="profile-section-text">
+                  <h4>Safety & Ride Preferences</h4>
+                  <p>Configure kids & women protection, professional chauffeur mode, speed alerts.</p>
+                </div>
+              </div>
+              <i class="fa-solid fa-chevron-right" style="font-size:12px; color:var(--text-secondary);"></i>
+            </div>
+            
+            <div class="profile-section-item" onclick="openProfileSubpage('language', 'Language & Country')">
+              <div class="profile-section-left">
+                <div class="profile-section-icon"><i class="fa-solid fa-globe"></i></div>
+                <div class="profile-section-text">
+                  <h4>Localization Settings</h4>
+                  <p>Set standard language (English), local currency (INR) and home country (India).</p>
+                </div>
+              </div>
+              <i class="fa-solid fa-chevron-right" style="font-size:12px; color:var(--text-secondary);"></i>
+            </div>
+            
+            <div class="profile-section-item" onclick="openProfileSubpage('help', 'Help & Support')">
+              <div class="profile-section-left">
+                <div class="profile-section-icon"><i class="fa-solid fa-circle-question"></i></div>
+                <div class="profile-section-text">
+                  <h4>Customer Help Desk</h4>
+                  <p>Read FAQs, initiate safety contacts, or open support ticket entries.</p>
+                </div>
+              </div>
+              <i class="fa-solid fa-chevron-right" style="font-size:12px; color:var(--text-secondary);"></i>
+            </div>
+            
+            <div class="profile-section-item" onclick="openProfileSubpage('about', 'About SART')">
+              <div class="profile-section-left">
+                <div class="profile-section-icon"><i class="fa-solid fa-info"></i></div>
+                <div class="profile-section-text">
+                  <h4>About Universal SART</h4>
+                  <p>Version 2.4.0-Beta. Standard legal privacy policy, terms of service agreements.</p>
+                </div>
+              </div>
+              <i class="fa-solid fa-chevron-right" style="font-size:12px; color:var(--text-secondary);"></i>
+            </div>
+            
+            <div class="profile-section-item" onclick="openModal('modal-bit-feed')">
+              <div class="profile-section-left">
+                <div class="profile-section-icon" style="background: rgba(21,127,138,0.15);"><i class="fa-solid fa-compass"></i></div>
+                <div class="profile-section-text">
+                  <h4>BIT Tool Active Feed</h4>
+                  <p>Access the live activity dashboard tracking vehicle events across city sectors.</p>
+                </div>
+              </div>
+              <i class="fa-solid fa-chevron-right" style="font-size:12px; color:var(--text-secondary);"></i>
+            </div>
           </div>
-
+          
         </div>
       </section>
       
@@ -1247,33 +1472,6 @@
     </div>
   </div>
 
-  <!-- Live Booking Activity Toast (Bokspot Style) -->
-  <div class="live-activity-toast" id="live-activity-toast">
-    <div class="live-toast-avatar">
-      <span id="live-toast-emoji">🚗</span>
-    </div>
-    <div class="live-toast-content">
-      <div class="live-toast-badge">
-        <span style="width: 6px; height: 6px; background: var(--success); border-radius: 50%; display: inline-block; animation: pulseGreen 1s infinite alternate;"></span>
-        LIVE BOOKING ACTIVITY
-      </div>
-      <div class="live-toast-text" id="live-toast-text">
-        <strong>Amit</strong> in Bangalore booked <u>Airport Sedan Ride</u> at Kempegowda Airport
-      </div>
-      <div class="live-toast-meta" id="live-toast-meta">
-        <span id="live-toast-time">10 mins ago</span> • <span class="view-link" onclick="switchTab('store')">VIEW SERVICE &gt;</span>
-      </div>
-    </div>
-    <div class="live-toast-close" onclick="hideLiveActivityToast()">
-      <i class="fa-solid fa-xmark"></i>
-    </div>
-  </div>
-
-  <!-- Floating AI Copilot Trigger (Bokspot Style chat widget) -->
-  <div class="floating-ai-trigger" id="floating-ai-trigger" onclick="toggleFloatingAiCopilot()">
-    <i class="fa-solid fa-comments"></i>
-    <div class="floating-ai-pulse"></div>
-  </div>
 
   <!-- Leaflet Map JS CDN -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
