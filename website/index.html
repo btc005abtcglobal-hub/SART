@@ -20,21 +20,23 @@
     
     <!-- TOP NAVIGATION BAR -->
     <header class="web-navbar">
-      <div class="nav-brand" onclick="switchTab('home')">
-        <i class="fa-solid fa-compass-drafting brand-icon"></i>
-        <span>SART</span>
-        <span class="brand-badge">UNIVERSAL</span>
-      </div>
-      
-      <!-- Center Links -->
-      <nav class="nav-links">
-        <!-- Location Pinned to the Left of Home in Nav Bar (User wireframe requirement) -->
-        <div class="location-nav-btn" onclick="requestLocation()" style="margin-right: 8px; flex-shrink: 0; align-self: center;">
+      <div style="display: flex; align-items: center; gap: 16px;">
+        <div class="nav-brand" onclick="switchTab('home')">
+          <i class="fa-solid fa-compass-drafting brand-icon"></i>
+          <span>SART</span>
+          <span class="brand-badge">UNIVERSAL</span>
+        </div>
+        
+        <!-- Location badge moved near logo -->
+        <div class="location-nav-btn" onclick="requestLocation()" style="flex-shrink: 0; align-self: center;">
           <i class="fa-solid fa-location-dot"></i>
           <span id="nav-location-txt">Indiranagar, Bengaluru</span>
           <i class="fa-solid fa-chevron-down" style="font-size: 8px;"></i>
         </div>
-
+      </div>
+      
+      <!-- Center Links (with AI and Wallet options removed) -->
+      <nav class="nav-links">
         <div class="nav-link active" id="nav-btn-home" onclick="switchTab('home')">
           <i class="fa-solid fa-house"></i>
           <span>Home</span>
@@ -42,14 +44,6 @@
         <div class="nav-link" id="nav-btn-store" onclick="switchTab('store')">
           <i class="fa-solid fa-bag-shopping"></i>
           <span>Store</span>
-        </div>
-        <div class="nav-link" id="nav-btn-ai" onclick="switchTab('ai')">
-          <i class="fa-solid fa-robot"></i>
-          <span>AI</span>
-        </div>
-        <div class="nav-link" id="nav-btn-wallet" onclick="switchTab('wallet')">
-          <i class="fa-solid fa-wallet"></i>
-          <span>Wallet</span>
         </div>
         <div class="nav-link" id="nav-btn-profile" onclick="switchTab('profile')">
           <i class="fa-solid fa-user-gear"></i>
@@ -79,10 +73,10 @@
           <i class="fa-solid fa-chevron-down" style="font-size: 9px;"></i>
         </div>
 
-        <!-- Emergency SOS Button -->
-        <button class="sos-nav-btn" onclick="triggerImmediateSOS()">
-          <i class="fa-solid fa-triangle-exclamation"></i>
-          <span>SOS</span>
+        <!-- BIT Tool Button -->
+        <button class="bit-nav-btn" onclick="openModal('modal-bit-feed')">
+          <i class="fa-solid fa-satellite-dish"></i>
+          <span>BIT Tool</span>
         </button>
       </div>
     </header>
@@ -131,46 +125,7 @@
           </div>
         </div>
 
-        <!-- Hero Carousel Section (Bokspot Style) -->
-        <div class="hero-carousel-container">
-          <!-- Slide 1 (Rides) -->
-          <div class="carousel-slide active" id="slide-0">
-            <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?auto=format&fit=crop&w=1200&q=80');"></div>
-            <div class="slide-content">
-              <span class="slide-tag" style="background: rgba(239, 68, 68, 0.15); color: #ef4444; border-color: rgba(239,68,68,0.3);">City Rides</span>
-              <h2 class="slide-title">Book a Ride Instantly</h2>
-              <p class="slide-desc">Get a cab, share a ride or book a premium vehicle — wherever you are, in seconds.</p>
-              <button class="slide-btn" onclick="openModal('modal-ride')">BOOK RIDE NOW</button>
-            </div>
-          </div>
-          <!-- Slide 2 (EV Rental) -->
-          <div class="carousel-slide" id="slide-1">
-            <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&w=1200&q=80');"></div>
-            <div class="slide-content">
-              <span class="slide-tag" style="background: rgba(59, 130, 246, 0.15); color: #3b82f6; border-color: rgba(59,130,246,0.3);">Self Drive</span>
-              <h2 class="slide-title">Tata Nexon EV Rental</h2>
-              <p class="slide-desc">Sleek, eco-friendly electric SUVs. 100% charged and ready for daily commutes.</p>
-              <button class="slide-btn" onclick="openModal('modal-rental')">RENT EV NOW</button>
-            </div>
-          </div>
-          <!-- Slide 3 (Carrier & Logistics) -->
-          <div class="carousel-slide" id="slide-2">
-            <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?auto=format&fit=crop&w=1200&q=80');"></div>
-            <div class="slide-content">
-              <span class="slide-tag" style="background: rgba(245, 158, 11, 0.15); color: #f59e0b; border-color: rgba(245,158,11,0.3);">Carrier & Logistics</span>
-              <h2 class="slide-title">Heavy Carrier On Demand</h2>
-              <p class="slide-desc">Move goods, parcels and industrial cargo with full-track visibility across India.</p>
-              <button class="slide-btn" onclick="openModal('modal-carrier')">BOOK CARRIER</button>
-            </div>
-          </div>
 
-          <!-- Dots -->
-          <div class="carousel-dots">
-            <span class="carousel-dot active" onclick="setSlide(0)"></span>
-            <span class="carousel-dot" onclick="setSlide(1)"></span>
-            <span class="carousel-dot" onclick="setSlide(2)"></span>
-          </div>
-        </div>
 
         <!-- Shortcuts Row (Transport Only) -->
         <div class="shortcuts-row">
@@ -379,6 +334,47 @@
               </div>
             </div>
 
+          </div>
+        </div>
+
+        <!-- Hero Carousel Section (Bokspot Style) -->
+        <div class="hero-carousel-container" style="margin-bottom: 20px;">
+          <!-- Slide 1 (Rides) -->
+          <div class="carousel-slide active" id="slide-0">
+            <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?auto=format&fit=crop&w=1200&q=80');"></div>
+            <div class="slide-content">
+              <span class="slide-tag" style="background: rgba(239, 68, 68, 0.15); color: #ef4444; border-color: rgba(239,68,68,0.3);">City Rides</span>
+              <h2 class="slide-title">Book a Ride Instantly</h2>
+              <p class="slide-desc">Get a cab, share a ride or book a premium vehicle — wherever you are, in seconds.</p>
+              <button class="slide-btn" onclick="openModal('modal-ride')">BOOK RIDE NOW</button>
+            </div>
+          </div>
+          <!-- Slide 2 (EV Rental) -->
+          <div class="carousel-slide" id="slide-1">
+            <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&w=1200&q=80');"></div>
+            <div class="slide-content">
+              <span class="slide-tag" style="background: rgba(59, 130, 246, 0.15); color: #3b82f6; border-color: rgba(59,130,246,0.3);">Self Drive</span>
+              <h2 class="slide-title">Tata Nexon EV Rental</h2>
+              <p class="slide-desc">Sleek, eco-friendly electric SUVs. 100% charged and ready for daily commutes.</p>
+              <button class="slide-btn" onclick="openModal('modal-rental')">RENT EV NOW</button>
+            </div>
+          </div>
+          <!-- Slide 3 (Carrier & Logistics) -->
+          <div class="carousel-slide" id="slide-2">
+            <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?auto=format&fit=crop&w=1200&q=80');"></div>
+            <div class="slide-content">
+              <span class="slide-tag" style="background: rgba(245, 158, 11, 0.15); color: #f59e0b; border-color: rgba(245,158,11,0.3);">Carrier & Logistics</span>
+              <h2 class="slide-title">Heavy Carrier On Demand</h2>
+              <p class="slide-desc">Move goods, parcels and industrial cargo with full-track visibility across India.</p>
+              <button class="slide-btn" onclick="openModal('modal-carrier')">BOOK CARRIER</button>
+            </div>
+          </div>
+
+          <!-- Dots -->
+          <div class="carousel-dots">
+            <span class="carousel-dot active" onclick="setSlide(0)"></span>
+            <span class="carousel-dot" onclick="setSlide(1)"></span>
+            <span class="carousel-dot" onclick="setSlide(2)"></span>
           </div>
         </div>
 
@@ -602,7 +598,7 @@
           </div>
 
           <div class="profile-col">
-            <div class="profile-btn profile-btn-sos" onclick="triggerImmediateSOS()">SOS</div>
+            <div class="profile-btn profile-btn-bit" onclick="openModal('modal-bit-feed')">BIT Tool</div>
           </div>
 
         </div>
@@ -1075,21 +1071,42 @@
     </div>
   </div>
   
-  <!-- 15. SOS Counting Down / Trigger Modal -->
-  <div class="modal-overlay" id="modal-sos-countdown">
-    <div class="modal-sheet centered-modal" style="max-width: 450px;">
+  <!-- 15. BIT Live Booking Activity Feed Modal -->
+  <div class="modal-overlay" id="modal-bit-feed">
+    <div class="modal-sheet centered-modal" style="max-width: 500px;">
       <div class="modal-header">
-        <div class="modal-title"><i class="fa-solid fa-circle-exclamation" style="color: var(--error);"></i> SOS CRITICAL WARNING</div>
-        <div class="modal-close-btn" onclick="closeModal('modal-sos-countdown'); stopSosCountdown();"><i class="fa-solid fa-circle-xmark"></i></div>
+        <div class="modal-title"><i class="fa-solid fa-satellite-dish" style="color: var(--primary);"></i> BIT Live Activity Feed</div>
+        <div class="modal-close-btn" onclick="closeModal('modal-bit-feed');"><i class="fa-solid fa-circle-xmark"></i></div>
       </div>
-      <div class="sos-alarm-container" style="margin-top: 10px;">
-        <div class="sos-countdown-ring" id="sos-counter-number">5</div>
-        <div class="sos-details" style="margin-top:14px;">
-          <h3>Triggering Emergency Rescue Protocols</h3>
-          <p>Broadcasting GPS coordinates to nearby Emergency services and active road-police nodes. Click close button to abort.</p>
+      
+      <div style="margin-top: 10px; display: flex; flex-direction: column; gap: 14px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--dark-border); padding-bottom: 10px;">
+          <span style="font-size: 11px; font-weight: 700; color: var(--success); display: flex; align-items: center; gap: 6px;">
+            <span style="width: 6px; height: 6px; background: var(--success); border-radius: 50%; display: inline-block; animation: pulseGreen 1.2s infinite alternate;"></span>
+            LIVE ACTIVITY STREAMING
+          </span>
+          <button class="action-btn" style="padding: 6px 12px; font-size: 10.5px; width: auto; margin: 0;" onclick="simulateNewLiveActivity()">
+            <i class="fa-solid fa-plus"></i> Simulate Booking
+          </button>
+        </div>
+        
+        <p style="font-size: 12px; color: var(--text-secondary); line-height: 1.4;">
+          This panel displays real-time booking alerts across the SART network. You can simulate activities manually or toggle toast notifications.
+        </p>
+
+        <!-- Feed List -->
+        <div id="bit-feed-list" style="display: flex; flex-direction: column; gap: 10px; max-height: 250px; overflow-y: auto; padding-right: 4px;">
+          <!-- Loaded dynamically via JS -->
+        </div>
+
+        <div style="border-top: 1px solid var(--dark-border); padding-top: 12px; display: flex; justify-content: space-between; align-items: center; font-size: 11px;">
+          <span style="color: var(--text-secondary);">Show Toast Popup Alerts</span>
+          <label class="switch-label" style="display: flex; align-items: center; cursor: pointer; gap: 6px;">
+            <input type="checkbox" id="bit-alert-toggle" checked onchange="toggleBitToasts(this.checked)" style="accent-color: var(--primary);">
+            <span style="color: var(--text-primary); font-weight: bold;">Enabled</span>
+          </label>
         </div>
       </div>
-      <button class="action-btn action-btn-danger" onclick="executeImmediateSosBroadcasting()">Trigger Instantly Now</button>
     </div>
   </div>
 
@@ -1164,18 +1181,18 @@
   <div class="modal-overlay" id="modal-liked">
     <div class="modal-sheet centered-modal" style="max-width: 500px;">
       <div class="modal-header">
-        <div class="modal-title"><i class="fa-solid fa-star" style="color: #00f2fe;"></i> Liked Routes & Places</div>
+        <div class="modal-title"><i class="fa-solid fa-star" style="color: var(--secondary);"></i> Liked Routes & Places</div>
         <div class="modal-close-btn" onclick="closeModal('modal-liked')"><i class="fa-solid fa-circle-xmark"></i></div>
       </div>
       <div style="margin-top: 14px; display:flex; flex-direction:column; gap:10px;">
         <p style="font-size:12px; color:var(--text-secondary); margin-bottom:4px;">Select a saved route below to pre-populate and launch a quick ride dispatch booking.</p>
         
-        <div style="display:flex; justify-content:space-between; align-items:center; border: 1px solid var(--dark-border); padding: 12px; border-radius: 12px; background: rgba(0,242,254,0.02); border-color: rgba(0,242,254,0.25); cursor:pointer;" onclick="triggerLikedRoute('Home', 'Office')">
+        <div style="display:flex; justify-content:space-between; align-items:center; border: 1px solid var(--dark-border); padding: 12px; border-radius: 12px; background: rgba(212, 167, 41, 0.02); border-color: rgba(212, 167, 41, 0.25); cursor:pointer;" onclick="triggerLikedRoute('Home', 'Office')">
           <div>
-            <div style="font-size:13px; font-weight:bold; color:var(--text-primary);"><i class="fa-solid fa-house-user" style="color:#00f2fe; margin-right:6px;"></i> Indiranagar Home to Tech Office</div>
+            <div style="font-size:13px; font-weight:bold; color:var(--text-primary);"><i class="fa-solid fa-house-user" style="color: var(--secondary); margin-right:6px;"></i> Indiranagar Home to Tech Office</div>
             <div style="font-size:10.5px; color:var(--text-secondary); margin-top:2px;">Route: Indiranagar 100 Feet Rd → Whitefield IT Park</div>
           </div>
-          <i class="fa-solid fa-chevron-right" style="font-size:10px; color:#00f2fe;"></i>
+          <i class="fa-solid fa-chevron-right" style="font-size:10px; color: var(--secondary);"></i>
         </div>
 
         <div style="display:flex; justify-content:space-between; align-items:center; border: 1px solid var(--dark-border); padding: 12px; border-radius: 12px; background: rgba(255,255,255,0.01); cursor:pointer;" onclick="triggerLikedRoute('Office', 'Airport')">
@@ -1232,8 +1249,8 @@
 
   <!-- Live Booking Activity Toast (Bokspot Style) -->
   <div class="live-activity-toast" id="live-activity-toast">
-    <div class="live-toast-icon">
-      <i class="fa-solid fa-circle-check"></i>
+    <div class="live-toast-avatar">
+      <span id="live-toast-emoji">🚗</span>
     </div>
     <div class="live-toast-content">
       <div class="live-toast-badge">
@@ -1241,10 +1258,10 @@
         LIVE BOOKING ACTIVITY
       </div>
       <div class="live-toast-text" id="live-toast-text">
-        <strong>Amit</strong> in Bangalore booked <strong>Art Workshop</strong> at Cubbon ArtHouse
+        <strong>Amit</strong> in Bangalore booked <u>Airport Sedan Ride</u> at Kempegowda Airport
       </div>
       <div class="live-toast-meta" id="live-toast-meta">
-        10 mins ago • <span style="text-decoration: underline; cursor: pointer; color: var(--primary-header);" onclick="switchTab('store')">VIEW SERVICE &gt;</span>
+        <span id="live-toast-time">10 mins ago</span> • <span class="view-link" onclick="switchTab('store')">VIEW SERVICE &gt;</span>
       </div>
     </div>
     <div class="live-toast-close" onclick="hideLiveActivityToast()">

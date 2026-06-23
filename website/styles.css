@@ -13,11 +13,11 @@
   --text-secondary: #8b949e;
   
   /* Brand Accent Gradients */
-  --primary: #0052ff;
-  --primary-glow: rgba(0, 82, 255, 0.4);
-  --primary-gradient: linear-gradient(135deg, #0052ff 0%, #7928ca 100%);
-  --secondary: #00f2fe;
-  --secondary-gradient: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+  --primary: #157f8a;
+  --primary-glow: rgba(21, 127, 138, 0.4);
+  --primary-gradient: linear-gradient(135deg, #157f8a 0%, #0d4f55 100%);
+  --secondary: #d4a729;
+  --secondary-gradient: linear-gradient(135deg, #d4a729 0%, #a47e1d 100%);
   --accent: #ff007a;
   --accent-gradient: linear-gradient(135deg, #ff007a 0%, #7928ca 100%);
   --sos-gradient: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%);
@@ -28,12 +28,12 @@
   --dark-border: #21262d;
   
   --shadow-premium: 0 15px 35px rgba(0, 0, 0, 0.5);
-  --shadow-glow: 0 0 25px rgba(0, 82, 255, 0.15);
+  --shadow-glow: 0 0 25px rgba(21, 127, 138, 0.15);
   
   --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
   /* Bokspot-inspired Colors & Theme variables */
-  --primary-header: #f5c518; /* Vibrant Golden-Yellow */
+  --primary-header: #d4a729; /* Vibrant Golden-Yellow / Secondary */
   --header-text: #0f172a;    /* Dark slate for high contrast on yellow */
   --header-text-hover: #1e293b;
   --subnav-bg: #090d16;      /* Charcoal black for subnavbar */
@@ -268,8 +268,8 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--primary);
 }
 
-.sos-nav-btn {
-  background: var(--sos-gradient);
+.bit-nav-btn {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
   border: none;
   color: #fff;
   padding: 8px 16px;
@@ -281,12 +281,12 @@ h1, h2, h3, h4, h5, h6 {
   display: flex;
   align-items: center;
   gap: 6px;
-  box-shadow: 0 4px 10px rgba(239, 68, 68, 0.2);
+  box-shadow: 0 4px 10px rgba(21, 127, 138, 0.25);
   transition: var(--transition);
 }
-.sos-nav-btn:hover {
+.bit-nav-btn:hover {
   transform: translateY(-1px);
-  box-shadow: 0 6px 14px rgba(239, 68, 68, 0.35);
+  box-shadow: 0 6px 14px rgba(21, 127, 138, 0.4);
 }
 
 /* Main Content Area */
@@ -1913,12 +1913,12 @@ h1, h2, h3, h4, h5, h6 {
   z-index: 10;
 }
 
-/* LIKED Action Button: Bold Glowing Blue Border */
+/* LIKED Action Button: Bold Glowing Border */
 .map-action-btn-liked {
   background: rgba(8, 11, 16, 0.85);
   backdrop-filter: blur(12px);
-  border: 2.5px solid #00f2fe;
-  color: #00f2fe;
+  border: 2.5px solid var(--secondary);
+  color: var(--secondary);
   padding: 10px 20px;
   border-radius: 14px;
   font-family: var(--font-display);
@@ -1929,13 +1929,13 @@ h1, h2, h3, h4, h5, h6 {
   display: flex;
   align-items: center;
   gap: 8px;
-  box-shadow: 0 0 20px rgba(0, 242, 254, 0.45);
+  box-shadow: 0 0 20px rgba(212, 167, 41, 0.45);
   transition: var(--transition);
 }
 .map-action-btn-liked:hover {
-  background: #00f2fe;
+  background: var(--secondary);
   color: #000;
-  box-shadow: 0 0 30px rgba(0, 242, 254, 0.7);
+  box-shadow: 0 0 30px rgba(212, 167, 41, 0.7);
   transform: translateY(-2px);
 }
 
@@ -2635,12 +2635,12 @@ h1, h2, h3, h4, h5, h6 {
   border-color: var(--primary);
   background: rgba(255,255,255,0.05);
 }
-.profile-btn-sos {
-  border-color: var(--error);
+.profile-btn-bit {
+  border-color: var(--primary);
   color: var(--text-primary);
 }
-.profile-btn-sos:hover {
-  background: rgba(239, 68, 68, 0.1);
+.profile-btn-bit:hover {
+  background: rgba(21, 127, 138, 0.15);
 }
 
 /* ============================================================================
@@ -2750,11 +2750,11 @@ h1, h2, h3, h4, h5, h6 {
   color: #000 !important;
 }
 
-.sos-nav-btn {
+.bit-nav-btn {
   border-radius: 20px !important;
   padding: 6px 14px !important;
   font-size: 11px !important;
-  box-shadow: 0 4px 10px rgba(239, 68, 68, 0.25) !important;
+  box-shadow: 0 4px 10px rgba(21, 127, 138, 0.3) !important;
 }
 
 .location-nav-btn {
@@ -3170,18 +3170,17 @@ h1, h2, h3, h4, h5, h6 {
   position: fixed;
   bottom: 24px;
   left: 24px;
-  background: rgba(10, 14, 22, 0.95);
+  background: rgba(10, 14, 22, 0.96);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--card-border);
-  border-left: 4px solid var(--success);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 16px;
-  padding: 14px;
-  width: 320px;
-  box-shadow: 0 12px 36px rgba(0,0,0,0.6);
+  padding: 14px 16px;
+  width: 330px;
+  box-shadow: 0 16px 40px rgba(0,0,0,0.65);
   display: flex;
-  gap: 12px;
-  align-items: flex-start;
+  gap: 14px;
+  align-items: center;
   z-index: 9999;
   transform: translateY(150px);
   opacity: 0;
@@ -3191,10 +3190,17 @@ h1, h2, h3, h4, h5, h6 {
   transform: translateY(0);
   opacity: 1;
 }
-.live-toast-icon {
-  font-size: 18px;
-  color: var(--success);
-  margin-top: 2px;
+.live-toast-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
 }
 .live-toast-content {
   flex: 1;
@@ -3204,33 +3210,55 @@ h1, h2, h3, h4, h5, h6 {
 .live-toast-badge {
   font-size: 8px;
   font-weight: 900;
-  color: var(--success);
+  color: #10b981;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  margin-bottom: 2px;
+  letter-spacing: 0.06em;
+  margin-bottom: 4px;
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
 }
 .live-toast-text {
-  font-size: 12px;
-  color: #fff;
-  line-height: 1.4;
+  font-size: 11.5px;
+  color: var(--text-secondary);
+  line-height: 1.45;
 }
 .live-toast-text strong {
   font-weight: 700;
-  color: var(--primary-header);
+  color: #fff;
+}
+.live-toast-text u {
+  text-decoration: underline;
+  font-weight: 700;
+  color: #fff;
 }
 .live-toast-meta {
-  font-size: 10px;
+  font-size: 9.5px;
   color: var(--text-secondary);
-  margin-top: 4px;
+  margin-top: 5px;
+  font-weight: 600;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.live-toast-meta span.view-link {
+  color: var(--secondary);
+  cursor: pointer;
+  font-weight: 700;
+  text-decoration: underline;
+  transition: var(--transition);
+}
+.live-toast-meta span.view-link:hover {
+  color: #fff;
 }
 .live-toast-close {
   cursor: pointer;
   color: var(--text-secondary);
   font-size: 12px;
   transition: var(--transition);
+  align-self: flex-start;
+  margin-top: -4px;
+  margin-right: -4px;
 }
 .live-toast-close:hover {
   color: #fff;

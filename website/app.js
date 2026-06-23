@@ -386,6 +386,9 @@ function openModal(modalId) {
   if (modal) {
     modal.classList.add('open');
     logActivity(`System`, `Opened panel [${modalId.replace('modal-', '').toUpperCase()}]`);
+    if (modalId === 'modal-bit-feed') {
+      renderBitFeedList();
+    }
   }
 }
 
@@ -1113,46 +1116,86 @@ function executePortalSearch() {
 }
 
 // ----------------------------------------------------------------------------
-// 12. SOS EMERGENCY BROADCAST ALARM
+// 12. BIT LIVE BOOKING ACTIVITY TRACKER
 // ----------------------------------------------------------------------------
-let sosSeconds = 5;
-let sosIntervalId = null;
+let bitAlertsEnabled = true;
+let bitActivitiesList = [
+  { name: "Rohan", city: "Chennai", item: "Root Canal Treatment", loc: "Apollo Dental Care", time: "2 mins ago", category: "lifestyle", emoji: "🦷" },
+  { name: "Amit", city: "Bengaluru", item: "Airport Sedan Ride", loc: "Kempegowda Airport", time: "10 mins ago", category: "ride", emoji: "🚗" },
+  { name: "Rajesh Kumar", city: "Indiranagar", item: "Tire Diagnostics", loc: "SART Service Node", time: "12 mins ago", category: "mechanic", emoji: "🔧" }
+];
 
-function triggerImmediateSOS() {
-  sosSeconds = 5;
-  document.getElementById('sos-counter-number').innerText = sosSeconds;
-  
-  openModal('modal-sos-countdown');
-  
-  if (sosIntervalId) clearInterval(sosIntervalId);
-  logActivity(`SOS`, `Triggered SOS emergency countdown...`);
-  
-  sosIntervalId = setInterval(() => {
-    sosSeconds--;
-    document.getElementById('sos-counter-number').innerText = sosSeconds;
-    
-    if (sosSeconds <= 0) {
-      clearInterval(sosIntervalId);
-      executeImmediateSosBroadcasting();
-    }
-  }, 1000);
-}
-
-function stopSosCountdown() {
-  if (sosIntervalId) {
-    clearInterval(sosIntervalId);
-    sosIntervalId = null;
+function toggleBitToasts(enabled) {
+  bitAlertsEnabled = enabled;
+  logActivity(`BIT`, `Real-time toast alerts ${enabled ? 'enabled' : 'disabled'}`);
+  const toggleCheckbox = document.getElementById('bit-alert-toggle');
+  if (toggleCheckbox) {
+    toggleCheckbox.checked = enabled;
   }
-  logActivity(`SOS`, `SOS emergency aborted.`);
 }
 
-function executeImmediateSosBroadcasting() {
-  if (sosIntervalId) clearInterval(sosIntervalId);
-  sosIntervalId = null;
+function simulateNewLiveActivity() {
+  const act = MOCK_ACTIVITIES[Math.floor(Math.random() * MOCK_ACTIVITIES.length)];
+  const newAct = { ...act, time: "Just now" };
   
-  closeModal('modal-sos-countdown');
-  logActivity(`SOS`, `Emergency SOS active! Coordinates ${BENGALURU_COORDS.toString()} broadcast to local emergency responders.`);
-  alert("🚨 Emergency SOS Activated!\n\nCoordinates sent. Assistance is on the way!");
+  bitActivitiesList.unshift(newAct);
+  if (bitActivitiesList.length > 15) bitActivitiesList.pop();
+  
+  renderBitFeedList();
+  showRandomLiveActivity(newAct);
+  logActivity(`BIT`, `Simulated booking: ${newAct.name} - ${newAct.item}`);
+}
+
+function handleBitFeedItemClick(category) {
+  closeModal('modal-bit-feed');
+  
+  const categoryModals = {
+    ride: 'modal-ride',
+    mechanic: 'modal-mechanic',
+    sea: 'modal-sea',
+    air: 'modal-air',
+    train: 'modal-train',
+    rental: 'modal-rental',
+    parking: 'modal-parking'
+  };
+  
+  const targetModal = categoryModals[category];
+  if (targetModal) {
+    openModal(targetModal);
+    logActivity(`BIT`, `Interactive navigation to booking modal: ${targetModal}`);
+  } else {
+    if (category === 'lifestyle') {
+      alert("🩺 Lifestyle services: Apollo Dental Care online booking portal loading...");
+    } else {
+      switchTab('home');
+    }
+  }
+}
+
+function renderBitFeedList() {
+  const container = document.getElementById('bit-feed-list');
+  if (!container) return;
+  
+  container.innerHTML = '';
+  bitActivitiesList.forEach(act => {
+    container.innerHTML += `
+      <div style="display:flex; justify-content:space-between; align-items:center; border: 1px solid var(--dark-border); padding: 10px 12px; border-radius: 12px; background: rgba(0,0,0,0.15); font-size:12px; animation: fadeIn 0.3s ease; cursor: pointer; transition: all 0.2s ease;" 
+           onmouseover="this.style.background='rgba(21, 127, 138, 0.12)'; this.style.borderColor='var(--primary)';" 
+           onmouseout="this.style.background='rgba(0,0,0,0.15)'; this.style.borderColor='var(--dark-border)';"
+           onclick="handleBitFeedItemClick('${act.category}')">
+        <div style="display:flex; gap:10px; align-items:center;">
+          <div style="width:34px; height:34px; border-radius:50%; background:rgba(255,255,255,0.05); display:flex; align-items:center; justify-content:center; font-size:16px; border: 1px solid rgba(255,255,255,0.08);">
+            ${act.emoji}
+          </div>
+          <div>
+            <div style="color: #fff;"><strong style="font-weight: 700; color: #fff;">${act.name}</strong> in ${act.city} booked <u style="text-decoration: underline; font-weight: 700; color: #fff;">${act.item}</u></div>
+            <div style="font-size:10px; color:var(--text-secondary); margin-top:2px;">at ${act.loc}</div>
+          </div>
+        </div>
+        <span style="font-size:10px; color:var(--text-secondary); white-space:nowrap; margin-left:10px;">${act.time}</span>
+      </div>
+    `;
+  });
 }
 
 // ----------------------------------------------------------------------------
@@ -1371,7 +1414,7 @@ function triggerNearbyFind() {
     const mapPanel = document.querySelector('.home-map-panel');
     if (mapPanel) {
       mapPanel.style.borderColor = 'var(--secondary)';
-      mapPanel.style.boxShadow = '0 0 30px rgba(0, 242, 254, 0.4)';
+      mapPanel.style.boxShadow = '0 0 30px rgba(212, 167, 41, 0.4)';
       setTimeout(() => {
         mapPanel.style.borderColor = 'var(--card-border)';
         mapPanel.style.boxShadow = 'var(--shadow-premium)';
@@ -1430,7 +1473,7 @@ function executeFindMyVehicle() {
     // Add locator pin
     const locatorIcon = L.divIcon({
       className: 'vehicle-locator-gps',
-      html: `<div style="width: 36px; height: 36px; background: rgba(0, 82, 255, 0.2); border: 2.5px solid var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 15px var(--primary); animation: pulseRed 1s infinite alternate;">
+      html: `<div style="width: 36px; height: 36px; background: rgba(21, 127, 138, 0.2); border: 2.5px solid var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 15px var(--primary); animation: pulseRed 1s infinite alternate;">
               <i class="fa-solid fa-car" style="color: #fff; font-size: 14px;"></i>
              </div>`,
       iconSize: [36, 36],
@@ -1726,30 +1769,45 @@ function toggleFloatingAiCopilot() {
 
 // Live Booking Activity Toast Notification
 const MOCK_ACTIVITIES = [
-  { name: "Amit", city: "Bengaluru", item: "Airport Sedan Ride", loc: "Kempegowda Airport", time: "10 mins ago", category: "ride" },
-  { name: "Rajesh Kumar", city: "Indiranagar", item: "Tire Diagnostics", loc: "SART Service Node", time: "2 mins ago", category: "mechanic" },
-  { name: "Sneha", city: "Mumbai", item: "Luxury Yacht Cruise", loc: "Gateway Pier", time: "5 mins ago", category: "sea" },
-  { name: "Vikram", city: "Delhi", item: "Heli Commute Charter", loc: "IGI Heliport", time: "1 min ago", category: "air" },
-  { name: "Deepa", city: "Chennai", item: "Vande Bharat Express", loc: "Central Terminal", time: "12 mins ago", category: "train" },
-  { name: "Arjun", city: "Koramangala", item: "Tata Nexon EV Drive", loc: "Self-Drive Depot", time: "8 mins ago", category: "rental" },
-  { name: "Meera", city: "Bengaluru", item: "Valet Parking Slot", loc: "Commercial Street", time: "15 mins ago", category: "parking" }
+  { name: "Rohan", city: "Chennai", item: "Root Canal Treatment", loc: "Apollo Dental Care", time: "2 mins ago", category: "lifestyle", emoji: "🦷" },
+  { name: "Amit", city: "Bengaluru", item: "Airport Sedan Ride", loc: "Kempegowda Airport", time: "10 mins ago", category: "ride", emoji: "🚗" },
+  { name: "Rajesh Kumar", city: "Indiranagar", item: "Tire Diagnostics", loc: "SART Service Node", time: "2 mins ago", category: "mechanic", emoji: "🔧" },
+  { name: "Sneha", city: "Mumbai", item: "Luxury Yacht Cruise", loc: "Gateway Pier", time: "5 mins ago", category: "sea", emoji: "⛴️" },
+  { name: "Vikram", city: "Delhi", item: "Heli Commute Charter", loc: "IGI Heliport", time: "1 min ago", category: "air", emoji: "✈️" },
+  { name: "Deepa", city: "Chennai", item: "Vande Bharat Express", loc: "Central Terminal", time: "12 mins ago", category: "train", emoji: "🚆" },
+  { name: "Arjun", city: "Koramangala", item: "Tata Nexon EV Drive", loc: "Self-Drive Depot", time: "8 mins ago", category: "rental", emoji: "🔑" },
+  { name: "Meera", city: "Bengaluru", item: "Valet Parking Slot", loc: "Commercial Street", time: "15 mins ago", category: "parking", emoji: "🅿️" }
 ];
 
-function showRandomLiveActivity() {
+function showRandomLiveActivity(act = null) {
+  if (!bitAlertsEnabled) return;
   const toast = document.getElementById('live-activity-toast');
   const textEl = document.getElementById('live-toast-text');
-  const metaEl = document.getElementById('live-toast-meta');
-  if (!toast || !textEl || !metaEl) return;
+  const emojiEl = document.getElementById('live-toast-emoji');
+  const timeEl = document.getElementById('live-toast-time');
+  if (!toast || !textEl || !emojiEl || !timeEl) return;
   
-  const act = MOCK_ACTIVITIES[Math.floor(Math.random() * MOCK_ACTIVITIES.length)];
+  const selectedAct = act || MOCK_ACTIVITIES[Math.floor(Math.random() * MOCK_ACTIVITIES.length)];
   
-  textEl.innerHTML = `<strong>${act.name}</strong> in ${act.city} booked <strong>${act.item}</strong> at ${act.loc}`;
+  if (!act) {
+    const newAct = { ...selectedAct, time: "Just now" };
+    bitActivitiesList.unshift(newAct);
+    if (bitActivitiesList.length > 15) bitActivitiesList.pop();
+    renderBitFeedList();
+  }
+  
+  emojiEl.innerText = selectedAct.emoji;
+  textEl.innerHTML = `<strong>${selectedAct.name}</strong> in ${selectedAct.city} booked <u>${selectedAct.item}</u> at ${selectedAct.loc}`;
+  timeEl.innerText = selectedAct.time;
   
   let targetTab = 'home';
-  if (act.category === 'store') targetTab = 'store';
-  else if (act.category === 'mechanic') targetTab = 'profile'; 
+  if (selectedAct.category === 'store') targetTab = 'store';
+  else if (selectedAct.category === 'mechanic') targetTab = 'profile'; 
   
-  metaEl.innerHTML = `${act.time} • <span style="text-decoration: underline; cursor: pointer; color: var(--primary-header);" onclick="switchTab('${targetTab}')">VIEW SERVICE &gt;</span>`;
+  const viewLink = toast.querySelector('.view-link');
+  if (viewLink) {
+    viewLink.setAttribute('onclick', `switchTab('${targetTab}')`);
+  }
   
   toast.classList.add('show');
   
